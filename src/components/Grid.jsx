@@ -1,11 +1,16 @@
 import React from "react";
-import Row from "./Row";
+import GridRow from "./GridRow";
 
-export default function Grid({ grid, toggleActive }) {
+export default function Grid({ grid, toggleActive, mouseDown }) {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col border">
       {grid.map((row, index) => (
-        <Row key={index} row={row} toggleActive={toggleActive} />
+        <GridRow
+          key={index}
+          row={row}
+          toggleActive={toggleActive}
+          mouseDown={mouseDown}
+        />
       ))}
     </div>
   );

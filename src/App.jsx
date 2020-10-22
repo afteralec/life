@@ -1,10 +1,35 @@
 import React, { useState } from "react";
 import Grid from "./components/Grid";
+import Navigation from "./components/Navigation";
 
 export default function App() {
-  const [grid, setGrid] = useState(generateSquareGrid());
+  const [game, setGame] = useState(0);
+  const [grid, setGrid] = useState(generateGrid());
+  const [timeStep, setTimeStep] = useState(1000);
+  const [activeCount, setActiveCount] = useState(0);
+  const [mouseDown, setMouseDown] = useState(false);
 
   function play() {
+    setGame(1);
+    setTimeout(() => {
+      step();
+      clearInterval(game);
+      setGame(setInterval(step, timeStep));
+    }, timeStep / 2.5);
+  }
+
+  function pause() {
+    clearInterval(game);
+    setGame(0);
+  }
+
+  function clear() {
+    pause();
+    setGrid(generateGrid());
+    setActiveCount(0);
+  }
+
+  function step() {
     const newGrid = [...grid];
 
     for (const row of newGrid) {
@@ -13,14 +38,19 @@ export default function App() {
       }
     }
 
+    let newActiveCount = 0;
+
     for (const row of newGrid) {
       for (const cell of row) {
         cell.active = !!cell.willBeActive;
+        if (cell.active) newActiveCount++;
         delete cell.willBeActive;
       }
     }
 
     setGrid(newGrid);
+    setActiveCount(newActiveCount);
+    if (newActiveCount === 0) pause();
   }
 
   function setCell({ active, neighbors }) {
@@ -46,28 +76,48 @@ export default function App() {
 
     cell.active = !cell.active;
 
+    if (cell.active) {
+      setActiveCount((activeCount) => activeCount + 1);
+    } else {
+      setActiveCount((activeCount) => activeCount - 1);
+    }
+
     setGrid(newGrid);
   }
 
   return (
-    <>
-      <div className="flex flex-center">
-        <button onClick={play}>Play</button>
-      </div>
-      <Grid grid={grid} toggleActive={toggleActive} />
-    </>
+    <div
+      className="flex flex-col flex-center app-margin-top"
+      onMouseDown={() => {
+        setMouseDown(true);
+      }}
+      onMouseUp={() => {
+        setMouseDown(false);
+      }}
+    >
+      <Grid grid={grid} toggleActive={toggleActive} mouseDown={mouseDown} />
+      <Navigation
+        boardEmpty={activeCount === 0}
+        playing={game && activeCount > 0}
+        game={game}
+        play={play}
+        pause={pause}
+        step={step}
+        clear={clear}
+        timeStep={timeStep}
+        setTimeStep={setTimeStep}
+      />
+    </div>
   );
 }
 
-function generateSquareGrid(num = 1000) {
-  const side = Math.ceil(Math.sqrt(num));
-
+function generateGrid(rows = 20, cells = 50) {
   const grid = [];
 
-  for (let i = 0; i < side; i++) {
+  for (let i = 0; i < rows; i++) {
     const row = [];
 
-    for (let ii = 0; ii < side; ii++) {
+    for (let ii = 0; ii < cells; ii++) {
       row.push({
         id: `${i}, ${ii}`,
         active: false,
@@ -79,8 +129,8 @@ function generateSquareGrid(num = 1000) {
           [i, ii + 1],
           [i + 1, ii - 1],
           [i + 1, ii],
-          [i + 1, ii + 1],
-        ],
+          [i + 1, ii + 1]
+        ]
       });
     }
 

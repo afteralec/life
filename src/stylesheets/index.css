@@ -1,0 +1,68 @@
+.border {
+  border: 0.5px solid #333;
+}
+
+.cell-size {
+  width: 3.5vh;
+  height: 3.5vh;
+}
+
+.inner-cell-size {
+  width: 3.25vh;
+  height: 3.25vh;
+  border-radius: 100%;
+}
+
+.cell-active {
+  animation-name: activeAnimation;
+  animation-duration: 500ms;
+  animation-timing-function: ease-in-out;
+  animation-delay: 0;
+  animation-direction: alternate;
+  animation-iteration-count: 1;
+  background-color: #333;
+}
+
+.cell-inactive {
+  transition-property: background-color;
+  transition-duration: 1500ms;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-center {
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.app-margin-top {
+  margin-top: 7vh;
+}
+
+@keyframes activeAnimation {
+  0% {
+    transform: scale(0.5);
+  }
+
+  25% {
+    transform: scale(0.75);
+  }
+
+  50% {
+    transform: scale(1);
+  }
+
+  75% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
