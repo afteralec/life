@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
 import GridRow from "./GridRow";
 
-export default function Grid({ grid, toggleActive, mouseDown }) {
+export default function Grid({ gridHistory, toggleActive, mouseDown }) {
   return (
     <div className="flex flex-col border">
-      {grid.map((row, index) => (
+      {gridHistory[0].map((row, index) => (
         <GridRow
           key={index}
           row={row}

@@ -7,7 +7,7 @@ export default function Cell({ id, active, toggleActive, mouseDown }) {
         onMouseEnter={() => {
           if (mouseDown && !active) toggleActive(id);
         }}
-        onMouseDown={() => toggleActive(id)}
+        onClick={() => toggleActive(id)}
         className={`inner-cell-size ${
           active ? "cell-active" : "cell-inactive"
         }`}
