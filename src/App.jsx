@@ -6,7 +6,7 @@ import Navigation from "./components/Navigation";
 
 export default function App() {
   const [game, setGame] = useState(0); // 1 is playing, 0 is not playing
-  const [gridHistory, setGridHistory] = useState([generateGrid()]);
+  const [currentGrid, setCurrentGrid] = useState(generateGrid());
   const [timeStep, setTimeStep] = useState(1000);
   const [activeCount, setActiveCount] = useState(1);
   const [mouseDown, setMouseDown] = useState(false);
@@ -23,7 +23,6 @@ export default function App() {
   function handleContextMenuClick(menuItemString) {
     switch (menuItemString) {
       case "clear":
-        console.log("cleared");
         clear();
         handleCloseMenu();
         break;
@@ -36,21 +35,19 @@ export default function App() {
     setMouse({ X: null, Y: null });
   }
 
-  function grid() {
-    return gridHistory[0] || generateGrid();
-  }
-
   function play() {
-    setGame(1);
+    setGame(setInterval(step, timeStep));
 
+    // setTimeout(step, timeStep);
+    // step();
     // Rework this so it's a recursive setTimeout instead of setInterval
     //   To use async setGridHistory inside this function
     //   Or store the history in memory until "pause()" fires
-    setTimeout(() => {
-      step();
-      clearInterval(game);
-      setGame(setInterval(step, timeStep));
-    }, timeStep / 2.5);
+    // setTimeout(() => {
+    //   step();
+    //   clearInterval(game);
+    //   setGame(setInterval(step, timeStep));
+    // }, timeStep / 2.5);
   }
 
   function pause() {
@@ -60,40 +57,47 @@ export default function App() {
 
   function clear() {
     pause();
-    console.log("clear");
-    setGridHistory([generateGrid()]);
-    setActiveCount(0);
+    setCurrentGrid(generateGrid());
   }
 
   function step() {
-    console.log(gridHistory);
-    const newGrid = [...grid()];
+    const newGrid = [...currentGrid];
 
     for (const row of newGrid) {
       for (const cell of row) {
-        cell.willBeActive = setCell(cell);
+        cell.willBeActive = applyRules(cell);
       }
     }
 
     for (const row of newGrid) {
       for (const cell of row) {
+        cell.history.unshift(cell.active);
         cell.active = !!cell.willBeActive;
         delete cell.willBeActive;
       }
     }
 
-    setGridHistory((gridHistory) => [newGrid, ...gridHistory]);
+    setCurrentGrid(newGrid);
   }
 
   function back() {
-    setGridHistory((gridHistory) => [...gridHistory.slice(1)]);
+    const newGrid = [...currentGrid];
+
+    for (const row of newGrid) {
+      for (const cell of row) {
+        cell.active = cell.history.shift() || false;
+        delete cell.willBeActive;
+      }
+    }
+
+    setCurrentGrid(newGrid);
   }
 
-  function setCell({ active, neighbors }) {
+  function applyRules({ active, neighbors }) {
     let i = 0;
 
     for (const pos of neighbors) {
-      const row = grid()[pos[0]];
+      const row = currentGrid[pos[0]];
 
       if (row) {
         const neighbor = row[pos[1]];
@@ -106,13 +110,13 @@ export default function App() {
   }
 
   function toggleActive(id) {
-    const newGrid = [...grid()],
+    const newGrid = [...currentGrid],
       pos = id.split(", "),
       cell = newGrid[pos[0]][pos[1]];
 
     cell.active = !cell.active;
 
-    setGridHistory((gridHistory) => [newGrid, ...gridHistory.slice(1)]);
+    setCurrentGrid(newGrid);
   }
 
   return (
@@ -127,8 +131,7 @@ export default function App() {
       }}
     >
       <Grid
-        grid={grid()}
-        gridHistory={gridHistory}
+        grid={currentGrid}
         toggleActive={toggleActive}
         mouseDown={mouseDown}
       />
@@ -172,6 +175,7 @@ function generateGrid(rows = 20, cells = 50) {
       row.push({
         id: `${i}, ${ii}`,
         active: false,
+        history: [false],
         neighbors: [
           [i - 1, ii - 1],
           [i - 1, ii],
