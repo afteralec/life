@@ -15,7 +15,7 @@
 
 .cell-active {
   animation-name: activeAnimation;
-  animation-duration: 500ms;
+  animation-duration: 750ms;
   animation-timing-function: ease-in-out;
   animation-delay: 0;
   animation-direction: alternate;
@@ -24,8 +24,16 @@
 }
 
 .cell-inactive {
-  transition-property: background-color;
-  transition-duration: 1500ms;
+  transform: scale(0);
+  animation-name: inactiveAnimation;
+  animation-duration: 500ms;
+  animation-timing-function: ease-in-out;
+  animation-delay: 0;
+  animation-direction: alternate;
+  animation-iteration-count: 1;
+  background-color: firebrick;
+  transition-property: background-color transform;
+  transition-duration: 500ms;
 }
 
 .flex {
@@ -64,5 +72,27 @@
 
   100% {
     transform: scale(1);
+  }
+}
+
+@keyframes inactiveAnimation {
+  0% {
+    transform: scale(1);
+  }
+
+  25% {
+    transform: scale(1.1);
+  }
+
+  50% {
+    transform: scale(1);
+  }
+
+  75% {
+    transform: scale(0.5);
+  }
+
+  100% {
+    transform: scale(0);
   }
 }

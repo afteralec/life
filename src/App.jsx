@@ -26,6 +26,10 @@ export default function App() {
         clear();
         handleCloseMenu();
         break;
+      case "random":
+        seed("random");
+        handleCloseMenu();
+        break;
       default:
         handleCloseMenu();
     }
@@ -119,6 +123,10 @@ export default function App() {
     setCurrentGrid(newGrid);
   }
 
+  function seed(key) {
+    setCurrentGrid((currentGrid) => SEED[key](currentGrid));
+  }
+
   return (
     <div
       className="flex flex-col flex-center app-margin-top"
@@ -160,6 +168,9 @@ export default function App() {
         <MenuItem onClick={() => handleContextMenuClick("clear")}>
           Clear
         </MenuItem>
+        <MenuItem onClick={() => handleContextMenuClick("random")}>
+          Random
+        </MenuItem>
       </Menu>
     </div>
   );
@@ -194,3 +205,18 @@ function generateGrid(rows = 20, cells = 50) {
 
   return grid;
 }
+
+const SEED = {
+  random: (grid) => {
+    const newGrid = [...grid];
+
+    for (const row of newGrid) {
+      for (const cell of row) {
+        cell.active = Math.random() >= 0.5;
+        cell.history = [cell.active];
+      }
+    }
+
+    return newGrid;
+  }
+};
