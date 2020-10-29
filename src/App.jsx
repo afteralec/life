@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Grid from "./components/Grid";
-import Navigation from "./components/Navigation";
+import Controls from "./components/Controls";
+import ShapesAccordion from "./components/ShapesAccordion";
 
 export default function App() {
   const [game, setGame] = useState(0); // 1 is playing, 0 is not playing
@@ -20,38 +21,12 @@ export default function App() {
     });
   }
 
-  function handleContextMenuClick(menuItemString) {
-    switch (menuItemString) {
-      case "clear":
-        clear();
-        handleCloseMenu();
-        break;
-      case "random":
-        seed("random");
-        handleCloseMenu();
-        break;
-      default:
-        handleCloseMenu();
-    }
-  }
-
   function handleCloseMenu() {
     setMouse({ X: null, Y: null });
   }
 
   function play() {
     setGame(setInterval(step, timeStep));
-
-    // setTimeout(step, timeStep);
-    // step();
-    // Rework this so it's a recursive setTimeout instead of setInterval
-    //   To use async setGridHistory inside this function
-    //   Or store the history in memory until "pause()" fires
-    // setTimeout(() => {
-    //   step();
-    //   clearInterval(game);
-    //   setGame(setInterval(step, timeStep));
-    // }, timeStep / 2.5);
   }
 
   function pause() {
@@ -128,51 +103,64 @@ export default function App() {
   }
 
   return (
-    <div
-      className="flex flex-col flex-center app-margin-top"
-      onContextMenu={handleContextMenu}
-      onMouseDown={() => {
-        setMouseDown(true);
-      }}
-      onMouseUp={() => {
-        setMouseDown(false);
-      }}
-    >
-      <Grid
-        grid={currentGrid}
-        toggleActive={toggleActive}
-        mouseDown={mouseDown}
-      />
-      <Navigation
-        boardEmpty={activeCount === 0}
-        playing={game && activeCount > 0}
-        game={game}
-        play={play}
-        pause={pause}
-        step={step}
-        back={back}
-        timeStep={timeStep}
-        setTimeStep={setTimeStep}
-      />
-      <Menu
-        keepMounted
-        open={mouse.Y !== null}
-        onClose={handleCloseMenu}
-        anchorReference="anchorPosition"
-        anchorPosition={
-          mouse.Y !== null && mouse.X !== null
-            ? { top: mouse.Y, left: mouse.X }
-            : undefined
-        }
+    <>
+      <div
+        className="flex flex-col flex-center app-margin-top"
+        onContextMenu={handleContextMenu}
+        onMouseDown={() => {
+          setMouseDown(true);
+        }}
+        onMouseUp={() => {
+          setMouseDown(false);
+        }}
       >
-        <MenuItem onClick={() => handleContextMenuClick("clear")}>
-          Clear
-        </MenuItem>
-        <MenuItem onClick={() => handleContextMenuClick("random")}>
-          Random
-        </MenuItem>
-      </Menu>
-    </div>
+        <ShapesAccordion />
+        <Grid
+          grid={currentGrid}
+          toggleActive={toggleActive}
+          mouseDown={mouseDown}
+        />
+        <Controls
+          boardEmpty={activeCount === 0}
+          playing={game && activeCount > 0}
+          game={game}
+          play={play}
+          pause={pause}
+          step={step}
+          back={back}
+          timeStep={timeStep}
+          setTimeStep={setTimeStep}
+        />
+        <Menu
+          keepMounted
+          open={mouse.Y !== null}
+          onClose={handleCloseMenu}
+          anchorReference="anchorPosition"
+          anchorPosition={
+            mouse.Y !== null && mouse.X !== null
+              ? { top: mouse.Y, left: mouse.X }
+              : undefined
+          }
+        >
+          <MenuItem
+            onClick={() => {
+              clear();
+              handleCloseMenu();
+            }}
+          >
+            Clear
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              seed("random");
+              handleCloseMenu();
+            }}
+          >
+            Random
+          </MenuItem>
+        </Menu>
+      </div>
+    </>
   );
 }
 
@@ -279,7 +267,7 @@ const SEED = {
 
     for (const row of newGrid) {
       for (const cell of row) {
-        cell.active = Math.random() >= 0.5;
+        cell.active = Math.random() >= 0.7;
         cell.history = [cell.active];
       }
     }
