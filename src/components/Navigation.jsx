@@ -22,7 +22,7 @@ export default function ({
   }
 
   function updateTimeStep() {
-    setTimeStep(1250 - sliderValue * 10);
+    setTimeStep(1350 - sliderValue * 10);
   }
 
   return (
