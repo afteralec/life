@@ -9,6 +9,7 @@ export default function App() {
   const [game, setGame] = useState(0); // 1 is playing, 0 is not playing
   const [currentGrid, setCurrentGrid] = useState(generateGrid());
   const [timeStep, setTimeStep] = useState(1000);
+  const [selectedShape, setSelectedShape] = useState([]);
   const [activeCount, setActiveCount] = useState(1);
   const [mouseDown, setMouseDown] = useState(false);
   const [mouse, setMouse] = useState({ X: null, Y: null });
@@ -275,3 +276,27 @@ const SEED = {
     return newGrid;
   }
 };
+
+const SHAPES = {
+  pentomino: [
+    [-1, 0],
+    [0, -1],
+    [0, 1],
+    [-1, +1]
+  ]
+};
+
+function activateShape(grid, centerCell, shapeCoordinates, onMouseOver = true) {
+  const newGrid = grid.map((row) => row.map((cell) => (cell.hovered = false)));
+
+  for (const coordinatePair in shapeCoordinates) {
+    const row = centerCell.row + coordinatePair[0];
+    const col = centerCell.col + coordinatePair[1];
+
+    onMouseOver
+      ? (newGrid[row][col].hovered = true)
+      : (grid[row][col].active = true);
+  }
+
+  return newGrid;
+}
