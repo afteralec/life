@@ -5,7 +5,7 @@ import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
-export default function () {
+export default function ({ setDragShape }) {
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -22,7 +22,17 @@ export default function () {
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <Typography>Shapes</Typography>
       </AccordionSummary>
-      <AccordionDetails>Shapes Go Here</AccordionDetails>
+      <AccordionDetails
+        draggable={true}
+        onDragStart={() => {
+          setDragShape("pentomino");
+        }}
+        onDragEnd={() => {
+          setDragShape("");
+        }}
+      >
+        Pentomino
+      </AccordionDetails>
     </Accordion>
   );
 }

@@ -1,21 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 
-export default function Cell({ id, active, toggleActive, mouseDown }) {
+export default function ({
+  id,
+  row,
+  col,
+  active,
+  hovered,
+  toggleActive,
+  hoverShape
+}) {
+  const activeClass = active ? "cell-active" : "cell-inactive";
+
   return (
     <div
-      onMouseEnter={() => {
-        if (mouseDown && !active) toggleActive(id);
+      onDragOver={() => {
+        hoverShape(row, col);
       }}
+      // onMouseEnter={() => {
+      //   if (mouseDown && !active) toggleActive(id);
+      // }}
       onClick={() => toggleActive(id)}
       className="flex flex-center border cell-size"
     >
       <div
-        onMouseEnter={() => {
-          if (mouseDown && !active) toggleActive(id);
-        }}
-        className={`inner-cell-size ${
-          active ? "cell-active" : "cell-inactive"
-        }`}
+        // onMouseEnter={() => {
+        //   if (mouseDown && !active) toggleActive(id);
+        // }}
+        className={`inner-cell-size ${hovered ? "cell-hovered" : activeClass}`}
       />
     </div>
   );

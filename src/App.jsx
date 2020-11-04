@@ -9,7 +9,7 @@ export default function App() {
   const [game, setGame] = useState(0); // 1 is playing, 0 is not playing
   const [currentGrid, setCurrentGrid] = useState(generateGrid());
   const [timeStep, setTimeStep] = useState(1000);
-  const [selectedShape, setSelectedShape] = useState([]);
+  const [dragShape, setDragShape] = useState("");
   const [activeCount, setActiveCount] = useState(1);
   const [mouseDown, setMouseDown] = useState(false);
   const [mouse, setMouse] = useState({ X: null, Y: null });
@@ -103,6 +103,24 @@ export default function App() {
     setCurrentGrid((currentGrid) => SEED[key](currentGrid));
   }
 
+  function dropShape(row, col) {
+    setCurrentGrid(
+      activateShape(currentGrid, row, col, SHAPES[dragShape], false)
+    );
+  }
+
+  function hoverShape(row, col) {
+    const newGrid = [...currentGrid];
+
+    for (const row of newGrid) {
+      for (const cell of row) {
+        cell.hovered = false;
+      }
+    }
+
+    setCurrentGrid(activateShape(newGrid, row, col, SHAPES[dragShape]));
+  }
+
   return (
     <>
       <div
@@ -115,10 +133,11 @@ export default function App() {
           setMouseDown(false);
         }}
       >
-        <ShapesAccordion />
+        <ShapesAccordion setDragShape={setDragShape} />
         <Grid
           grid={currentGrid}
           toggleActive={toggleActive}
+          hoverShape={hoverShape}
           mouseDown={mouseDown}
         />
         <Controls
@@ -158,6 +177,16 @@ export default function App() {
             }}
           >
             Random
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              setCurrentGrid(
+                activateShape(currentGrid, 10, 25, SHAPES.pentomino)
+              );
+              handleCloseMenu();
+            }}
+          >
+            Pentomino
           </MenuItem>
         </Menu>
       </div>
@@ -281,22 +310,21 @@ const SHAPES = {
   pentomino: [
     [-1, 0],
     [0, -1],
-    [0, 1],
-    [-1, +1]
+    [1, 0],
+    [-1, 1]
   ]
 };
 
-function activateShape(grid, centerCell, shapeCoordinates, onMouseOver = true) {
-  const newGrid = grid.map((row) => row.map((cell) => (cell.hovered = false)));
+function activateShape(grid, row, col, coordinates, onMouseOver = true) {
+  onMouseOver && grid[row] && grid[row][col]
+    ? (grid[row][col].hovered = true)
+    : (grid[row][col].active = true);
 
-  for (const coordinatePair in shapeCoordinates) {
-    const row = centerCell.row + coordinatePair[0];
-    const col = centerCell.col + coordinatePair[1];
-
-    onMouseOver
-      ? (newGrid[row][col].hovered = true)
-      : (grid[row][col].active = true);
+  for (const pair of coordinates) {
+    onMouseOver && grid[row + pair[0]] && grid[row + pair[0]][col + pair[1]]
+      ? (grid[row + pair[0]][col + pair[1]].hovered = true)
+      : (grid[row + pair[0]][col + pair[1]].active = true);
   }
 
-  return newGrid;
+  return grid;
 }
