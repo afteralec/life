@@ -1,3 +1,3 @@
-export default function (row, col) {
-  return `${row}, ${col}`;
+export default function (key, row, col) {
+  return `${key}: ${row}, ${col}`;
 }

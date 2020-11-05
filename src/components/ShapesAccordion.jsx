@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import Pentomino from "./shapes/Pentomino";
+import Glider from "./shapes/Glider";
+
 import Accordion from "@material-ui/core/Accordion";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
@@ -12,7 +15,8 @@ export default function ({ selectShape, dropShape, setHoverPoint }) {
     <Accordion
       style={{
         width: "100%",
-        marginBottom: "2vh"
+        marginBottom: "2vh",
+        backgroundColor: "rgba(0, 0, 0, 0)"
       }}
       expanded={expanded}
       onClick={() => {
@@ -22,19 +26,22 @@ export default function ({ selectShape, dropShape, setHoverPoint }) {
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <Typography>Shapes</Typography>
       </AccordionSummary>
-      <AccordionDetails
-        draggable={true}
-        onDragStart={() => {
-          selectShape("pentomino");
-        }}
-        onDragEnd={() => {
-          selectShape("");
-          dropShape();
-          setHoverPoint({});
-        }}
-      >
-        Pentomino
-      </AccordionDetails>
+      <div style={{ display: "flex" }}>
+        <AccordionDetails>
+          <Pentomino
+            selectShape={selectShape}
+            dropShape={dropShape}
+            setHoverPoint={setHoverPoint}
+          />
+        </AccordionDetails>
+        <AccordionDetails>
+          <Glider
+            selectShape={selectShape}
+            dropShape={dropShape}
+            setHoverPoint={setHoverPoint}
+          />
+        </AccordionDetails>
+      </div>
     </Accordion>
   );
 }

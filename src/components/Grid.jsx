@@ -1,7 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import GridRow from "./GridRow";
-import shapes from "../services/shapes";
-import makeId from "../services/makeId";
 
 export default function Grid({
   grid,

@@ -1,3 +1,5 @@
 export default function (id) {
-  return id.split(", ");
+  const split = id.split(": ");
+
+  return split[1].split(", ");
 }

@@ -2,6 +2,10 @@
   border: 0.5px solid #333;
 }
 
+.bg-transparent {
+  background-color: rgba(0, 0, 0, 0);
+}
+
 .cell-size {
   width: 3.5vh;
   height: 3.5vh;
