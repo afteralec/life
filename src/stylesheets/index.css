@@ -13,7 +13,7 @@
   border-radius: 100%;
 }
 
-.cell-active {
+/* .cell-active {
   animation-name: activeAnimation;
   animation-duration: 750ms;
   animation-timing-function: ease-in-out;
@@ -21,7 +21,7 @@
   animation-direction: alternate;
   animation-iteration-count: 1;
   background-color: #333;
-}
+} */
 
 .cell-hovered {
   transform: scale(1);
@@ -29,7 +29,7 @@
   background-color: #333;
 }
 
-.cell-inactive {
+/* .cell-inactive {
   transform: scale(0);
   animation-name: inactiveAnimation;
   animation-duration: 500ms;
@@ -40,7 +40,7 @@
   background-color: firebrick;
   transition-property: background-color transform;
   transition-duration: 500ms;
-}
+} */
 
 .flex {
   display: flex;

@@ -5,11 +5,14 @@ import Grid from "./components/Grid";
 import Controls from "./components/Controls";
 import ShapesAccordion from "./components/ShapesAccordion";
 
+import shapes from "./services/shapes";
+
 export default function App() {
   const [game, setGame] = useState(0); // 1 is playing, 0 is not playing
   const [currentGrid, setCurrentGrid] = useState(generateGrid());
   const [timeStep, setTimeStep] = useState(1000);
-  const [dragShape, setDragShape] = useState("");
+  const [selectedShape, selectShape] = useState("");
+  const [hoverShape, setHoverShape] = useState([]);
   const [activeCount, setActiveCount] = useState(1);
   const [mouseDown, setMouseDown] = useState(false);
   const [mouse, setMouse] = useState({ X: null, Y: null });
@@ -105,20 +108,8 @@ export default function App() {
 
   function dropShape(row, col) {
     setCurrentGrid(
-      activateShape(currentGrid, row, col, SHAPES[dragShape], false)
+      activateShape(currentGrid, row, col, shapes[selectedShape], false)
     );
-  }
-
-  function hoverShape(row, col) {
-    const newGrid = [...currentGrid];
-
-    for (const row of newGrid) {
-      for (const cell of row) {
-        cell.hovered = false;
-      }
-    }
-
-    setCurrentGrid(activateShape(newGrid, row, col, SHAPES[dragShape]));
   }
 
   return (
@@ -133,11 +124,12 @@ export default function App() {
           setMouseDown(false);
         }}
       >
-        <ShapesAccordion setDragShape={setDragShape} />
+        <ShapesAccordion selectShape={selectShape} />
         <Grid
           grid={currentGrid}
           toggleActive={toggleActive}
           hoverShape={hoverShape}
+          setHoverShape={setHoverShape}
           mouseDown={mouseDown}
         />
         <Controls
@@ -181,7 +173,7 @@ export default function App() {
           <MenuItem
             onClick={() => {
               setCurrentGrid(
-                activateShape(currentGrid, 10, 25, SHAPES.pentomino)
+                activateShape(currentGrid, 10, 25, shapes.pentomino)
               );
               handleCloseMenu();
             }}
@@ -304,15 +296,6 @@ const SEED = {
 
     return newGrid;
   }
-};
-
-const SHAPES = {
-  pentomino: [
-    [-1, 0],
-    [0, -1],
-    [1, 0],
-    [-1, 1]
-  ]
 };
 
 function activateShape(grid, row, col, coordinates, onMouseOver = true) {
