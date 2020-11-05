@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Pentomino from "./shapes/Pentomino";
 import Glider from "./shapes/Glider";
+import Diehard from "./shapes/Diehard";
 
 import Accordion from "@material-ui/core/Accordion";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
@@ -36,6 +37,13 @@ export default function ({ selectShape, dropShape, setHoverPoint }) {
         </AccordionDetails>
         <AccordionDetails>
           <Glider
+            selectShape={selectShape}
+            dropShape={dropShape}
+            setHoverPoint={setHoverPoint}
+          />
+        </AccordionDetails>
+        <AccordionDetails>
+          <Diehard
             selectShape={selectShape}
             dropShape={dropShape}
             setHoverPoint={setHoverPoint}

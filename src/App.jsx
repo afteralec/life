@@ -100,7 +100,7 @@ export default function App() {
 
   function toggleActive(id) {
     const newGrid = [...currentGrid],
-      pos = id.split(", "),
+      pos = splitId(id),
       cell = newGrid[pos[0]][pos[1]];
 
     cell.active = !cell.active;
@@ -121,21 +121,6 @@ export default function App() {
 
     setCurrentGrid(currentGrid);
   }
-
-  // function renderHoverShape() {
-  //   if (!hoverPoint.row) return false;
-
-  //   const { row, col } = hoverPoint;
-  //   const hoverShape = {};
-
-  //   hoverShape[makeId("main", hoverPoint.row, hoverPoint.col)] = true;
-
-  //   shapes[selectedShape].forEach((coords) => {
-  //     hoverShape[makeId("main", row + coords[0], col + coords[1])] = true;
-  //   });
-
-  //   return hoverShape;
-  // }
 
   function renderHoverShape() {
     return renderShape(hoverPoint, selectedShape);
@@ -163,7 +148,7 @@ export default function App() {
           toggleActive={toggleActive}
           hoverPoint={hoverPoint}
           setHoverPoint={setHoverPoint}
-          renderHoverShape={renderHoverShape}
+          hoverShape={renderShape(hoverPoint, selectedShape)}
           mouseDown={mouseDown}
         />
         <Controls

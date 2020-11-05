@@ -6,7 +6,7 @@ export default function Grid({
   toggleActive,
   hoverPoint,
   setHoverPoint,
-  renderHoverShape,
+  hoverShape,
   mouseDown
 }) {
   return (
@@ -15,7 +15,7 @@ export default function Grid({
         <GridRow
           key={index}
           row={row}
-          hoverShape={renderHoverShape()}
+          hoverShape={hoverShape}
           hoverPoint={hoverPoint}
           setHoverPoint={setHoverPoint}
           toggleActive={toggleActive}
