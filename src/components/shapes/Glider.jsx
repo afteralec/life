@@ -5,7 +5,7 @@ import generateGrid from "../../services/generateGrid";
 import renderShape from "../../services/renderShape";
 import splitId from "../../services/splitId";
 
-export default function Glider({ selectShape, dropShape, setHoverPoint }) {
+export default function Glider({ setExpanded, selectShape, dropShape, setHoverPoint }) {
   const grid = generateGrid(3, 3, "glider");
 
   const center = { row: 1, col: 1 };
@@ -20,6 +20,7 @@ export default function Glider({ selectShape, dropShape, setHoverPoint }) {
     <ShapeGrid
       grid={grid}
       shape="glider"
+      setExpanded={setExpanded}
       selectShape={selectShape}
       dropShape={dropShape}
       setHoverPoint={setHoverPoint}

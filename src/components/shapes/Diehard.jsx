@@ -5,7 +5,12 @@ import generateGrid from "../../services/generateGrid";
 import renderShape from "../../services/renderShape";
 import splitId from "../../services/splitId";
 
-export default function Diehard({ selectShape, dropShape, setHoverPoint }) {
+export default function Diehard({
+  setExpanded,
+  selectShape,
+  dropShape,
+  setHoverPoint
+}) {
   const grid = generateGrid(3, 8, "diehard");
 
   const center = { row: 1, col: 3 };
@@ -20,6 +25,7 @@ export default function Diehard({ selectShape, dropShape, setHoverPoint }) {
     <ShapeGrid
       grid={grid}
       shape="diehard"
+      setExpanded={setExpanded}
       selectShape={selectShape}
       dropShape={dropShape}
       setHoverPoint={setHoverPoint}

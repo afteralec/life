@@ -5,17 +5,17 @@ import generateGrid from "../../services/generateGrid";
 import renderShape from "../../services/renderShape";
 import splitId from "../../services/splitId";
 
-export default function Pentomino({
+export default function Acorn({
   setExpanded,
   selectShape,
   dropShape,
   setHoverPoint
 }) {
-  const grid = generateGrid(3, 3, "pentomino");
+  const grid = generateGrid(3, 7, "acorn");
 
-  const center = { row: 1, col: 1 };
+  const center = { row: 1, col: 3 };
 
-  for (const id in renderShape(center, "pentomino", "pentomino")) {
+  for (const id in renderShape(center, "acorn", "acorn")) {
     const [row, col] = splitId(id);
 
     grid[row][col].active = true;
@@ -24,7 +24,7 @@ export default function Pentomino({
   return (
     <ShapeGrid
       grid={grid}
-      shape="pentomino"
+      shape="acorn"
       setExpanded={setExpanded}
       selectShape={selectShape}
       dropShape={dropShape}

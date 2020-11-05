@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Pentomino from "./shapes/Pentomino";
 import Glider from "./shapes/Glider";
 import Diehard from "./shapes/Diehard";
+import Acorn from "./shapes/Acorn";
 
 import Accordion from "@material-ui/core/Accordion";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
@@ -30,6 +31,7 @@ export default function ({ selectShape, dropShape, setHoverPoint }) {
       <div style={{ display: "flex" }}>
         <AccordionDetails>
           <Pentomino
+            setExpanded={setExpanded}
             selectShape={selectShape}
             dropShape={dropShape}
             setHoverPoint={setHoverPoint}
@@ -37,6 +39,7 @@ export default function ({ selectShape, dropShape, setHoverPoint }) {
         </AccordionDetails>
         <AccordionDetails>
           <Glider
+            setExpanded={setExpanded}
             selectShape={selectShape}
             dropShape={dropShape}
             setHoverPoint={setHoverPoint}
@@ -44,6 +47,15 @@ export default function ({ selectShape, dropShape, setHoverPoint }) {
         </AccordionDetails>
         <AccordionDetails>
           <Diehard
+            setExpanded={setExpanded}
+            selectShape={selectShape}
+            dropShape={dropShape}
+            setHoverPoint={setHoverPoint}
+          />
+        </AccordionDetails>
+        <AccordionDetails>
+          <Acorn
+            setExpanded={setExpanded}
             selectShape={selectShape}
             dropShape={dropShape}
             setHoverPoint={setHoverPoint}

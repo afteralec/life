@@ -6,9 +6,7 @@ import Controls from "./components/Controls";
 import ShapesAccordion from "./components/ShapesAccordion";
 
 import generateGrid from "./services/generateGrid";
-import makeId from "./services/makeId";
 import splitId from "./services/splitId";
-import shapes from "./services/shapes";
 import renderShape from "./services/renderShape";
 
 export default function App() {
@@ -52,16 +50,13 @@ export default function App() {
 
     for (const row of newGrid) {
       for (const cell of row) {
-        cell.wasActive = cell.active;
-        cell.willBeActive = applyRules(cell);
+        cell.applyRules(currentGrid);
       }
     }
 
     for (const row of newGrid) {
       for (const cell of row) {
-        cell.history.unshift(cell.active);
-        cell.active = !!cell.willBeActive;
-        delete cell.willBeActive;
+        cell.play();
       }
     }
 
@@ -73,29 +68,11 @@ export default function App() {
 
     for (const row of newGrid) {
       for (const cell of row) {
-        cell.active = cell.history.shift() || false;
-        cell.wasActive = cell.history[0] || false;
-        delete cell.willBeActive;
+        cell.back();
       }
     }
 
     setCurrentGrid(newGrid);
-  }
-
-  function applyRules({ active, neighbors }) {
-    let i = 0;
-
-    for (const pos of neighbors) {
-      const row = currentGrid[pos[0]];
-
-      if (row) {
-        const neighbor = row[pos[1]];
-
-        if (neighbor && neighbor.active) i++;
-      }
-    }
-
-    return active ? i === 2 || i === 3 : i === 3;
   }
 
   function toggleActive(id) {

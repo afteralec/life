@@ -4,6 +4,7 @@ import ShapeGridRow from "./ShapeGridRow";
 export default function ShapeGrid({
   grid,
   shape,
+  setExpanded,
   selectShape,
   dropShape,
   setHoverPoint
@@ -13,6 +14,7 @@ export default function ShapeGrid({
       className="flex flex-col bg-transparent"
       draggable
       onDragStart={() => {
+        setExpanded(false);
         selectShape(shape);
       }}
       onDragEnd={() => {
