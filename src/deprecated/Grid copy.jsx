@@ -1,5 +1,5 @@
 import React from "react";
-import GridCell from "./GridCell";
+import GridCell from "../components/GridCell";
 
 export default function Grid({
   grid,
@@ -14,7 +14,15 @@ export default function Grid({
       {grid.map((row, index) => (
         <div key={index} className="flex">
           {row.map((cell) => (
-            <GridCell key={cell.id} cell={cell} />
+            <GridCell
+              key={cell.id}
+              {...cell}
+              toggleActive={toggleActive}
+              hoverPoint={hoverPoint}
+              setHoverPoint={setHoverPoint}
+              hovered={!!hoverShape[cell.id]}
+              mouseDown={mouseDown}
+            />
           ))}
         </div>
       ))}

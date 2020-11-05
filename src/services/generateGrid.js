@@ -1,5 +1,4 @@
-import makeId from "./makeId";
-import Cell from "../models/Cell";
+import { oldCell as Cell } from "../models/Cell";
 
 export default function generateGrid(rows = 20, cols = 50, key = "main") {
   const grid = [];
