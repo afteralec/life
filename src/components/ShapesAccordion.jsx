@@ -5,7 +5,7 @@ import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
-export default function ({ selectShape }) {
+export default function ({ selectShape, dropShape, setHoverPoint }) {
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -29,6 +29,8 @@ export default function ({ selectShape }) {
         }}
         onDragEnd={() => {
           selectShape("");
+          dropShape();
+          setHoverPoint({});
         }}
       >
         Pentomino

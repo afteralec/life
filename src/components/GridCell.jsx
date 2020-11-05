@@ -1,25 +1,28 @@
 import React from "react";
-import shapes from "../services/shapes";
 
 export default function ({
   id,
   row,
   col,
   active,
+  wasActive,
   toggleActive,
-  hoverShape,
-  setHoverShape,
   hoverPoint,
   setHoverPoint,
   hovered
 }) {
-  const activeClass = active ? "cell-active" : "cell-inactive";
+  function activeClass() {
+    if (active) {
+      return "cell-active";
+    } else if (wasActive) {
+      return "cell-inactive";
+    } else return "";
+  }
 
   return (
     <div
       onDragOver={() => {
         if (row === hoverPoint.row && col === hoverPoint.col) return;
-        console.log(hoverPoint);
         setHoverPoint({ row, col });
       }}
       // onMouseEnter={() => {
@@ -30,7 +33,9 @@ export default function ({
       className="flex flex-center border cell-size"
     >
       <div
-        className={`inner-cell-size ${hovered ? "cell-hovered" : activeClass}`}
+        className={`inner-cell-size ${
+          hovered ? "cell-hovered" : activeClass()
+        }`}
       />
     </div>
   );

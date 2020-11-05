@@ -6,13 +6,15 @@ import Controls from "./components/Controls";
 import ShapesAccordion from "./components/ShapesAccordion";
 
 import shapes from "./services/shapes";
+import makeId from "./services/makeId";
+import splitId from "./services/splitId";
 
 export default function App() {
   const [game, setGame] = useState(0); // 1 is playing, 0 is not playing
   const [currentGrid, setCurrentGrid] = useState(generateGrid());
   const [timeStep, setTimeStep] = useState(1000);
   const [selectedShape, selectShape] = useState("");
-  const [hoverShape, setHoverShape] = useState([]);
+  const [hoverPoint, setHoverPoint] = useState({});
   const [activeCount, setActiveCount] = useState(1);
   const [mouseDown, setMouseDown] = useState(false);
   const [mouse, setMouse] = useState({ X: null, Y: null });
@@ -48,6 +50,7 @@ export default function App() {
 
     for (const row of newGrid) {
       for (const cell of row) {
+        cell.wasActive = cell.active;
         cell.willBeActive = applyRules(cell);
       }
     }
@@ -69,6 +72,7 @@ export default function App() {
     for (const row of newGrid) {
       for (const cell of row) {
         cell.active = cell.history.shift() || false;
+        cell.wasActive = cell.history[0] || false;
         delete cell.willBeActive;
       }
     }
@@ -107,9 +111,28 @@ export default function App() {
   }
 
   function dropShape(row, col) {
-    setCurrentGrid(
-      activateShape(currentGrid, row, col, shapes[selectedShape], false)
-    );
+    for (const id in renderHoverShape()) {
+      const [row, col] = splitId(id);
+
+      currentGrid[row][col].active = true;
+    }
+
+    setCurrentGrid(currentGrid);
+  }
+
+  function renderHoverShape() {
+    if (!hoverPoint.row) return false;
+
+    const { row, col } = hoverPoint;
+    const hoverShape = {};
+
+    hoverShape[makeId(hoverPoint.row, hoverPoint.col)] = true;
+
+    shapes.pentomino.forEach((coords) => {
+      hoverShape[makeId(row + coords[0], col + coords[1])] = true;
+    });
+
+    return hoverShape;
   }
 
   return (
@@ -124,12 +147,17 @@ export default function App() {
           setMouseDown(false);
         }}
       >
-        <ShapesAccordion selectShape={selectShape} />
+        <ShapesAccordion
+          selectShape={selectShape}
+          dropShape={dropShape}
+          setHoverPoint={setHoverPoint}
+        />
         <Grid
           grid={currentGrid}
           toggleActive={toggleActive}
-          hoverShape={hoverShape}
-          setHoverShape={setHoverShape}
+          hoverPoint={hoverPoint}
+          setHoverPoint={setHoverPoint}
+          renderHoverShape={renderHoverShape}
           mouseDown={mouseDown}
         />
         <Controls
@@ -196,7 +224,7 @@ function generateGrid(rows = 20, cols = 50) {
       row.push({
         row: i,
         col: ii,
-        id: `${i}, ${ii}`,
+        id: makeId(i, ii),
         active: false,
         history: [false],
         neighbors: [
