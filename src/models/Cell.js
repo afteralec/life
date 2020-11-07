@@ -6,24 +6,11 @@ export default class Cell {
   willBeActive = false;
   history = [false];
 
-  constructor(row, col, key) {
+  constructor({ row, col, key, neighbors }) {
     this.row = row;
     this.col = col;
     this.id = makeId(key, row, col);
-    this.neighbors = [
-      [row - 1, col - 1], // Northwest
-      [row - 1, col], // North
-      [row - 1, col + 1], // Northeast
-      [row, col - 1], // West
-      [row, col + 1], // East
-      [row + 1, col - 1], // Southwest
-      [row + 1, col], // South
-      [row + 1, col + 1] // Southeast
-    ];
-  }
-
-  toggleActive() {
-    this.active = !this.active;
+    this.neighbors = neighbors;
   }
 
   applyRules(grid) {

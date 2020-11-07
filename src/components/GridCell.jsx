@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function ({
+export default function GridCell({
   id,
   row,
   col,
@@ -25,10 +25,6 @@ export default function ({
         if (row === hoverPoint.row && col === hoverPoint.col) return;
         setHoverPoint({ row, col });
       }}
-      // onMouseEnter={() => {
-      //   if (mouseDown && !active) toggleActive(id);
-      // }}
-
       onClick={() => toggleActive(id)}
       className="flex flex-center border cell-size"
     >

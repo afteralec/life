@@ -11,7 +11,7 @@ import renderShape from "./services/renderShape";
 
 export default function App() {
   const [game, setGame] = useState(0); // 1 is playing, 0 is not playing
-  const [currentGrid, setCurrentGrid] = useState(generateGrid());
+  const [grid, setGrid] = useState(generateGrid());
   const [timeStep, setTimeStep] = useState(1000);
   const [selectedShape, selectShape] = useState("");
   const [hoverPoint, setHoverPoint] = useState({});
@@ -42,15 +42,15 @@ export default function App() {
 
   function clear() {
     pause();
-    setCurrentGrid(generateGrid());
+    setGrid(generateGrid());
   }
 
   function step() {
-    const newGrid = [...currentGrid];
+    const newGrid = [...grid];
 
     for (const row of newGrid) {
       for (const cell of row) {
-        cell.applyRules(currentGrid);
+        cell.applyRules(grid);
       }
     }
 
@@ -60,11 +60,11 @@ export default function App() {
       }
     }
 
-    setCurrentGrid(newGrid);
+    setGrid(newGrid);
   }
 
   function back() {
-    const newGrid = [...currentGrid];
+    const newGrid = [...grid];
 
     for (const row of newGrid) {
       for (const cell of row) {
@@ -72,35 +72,32 @@ export default function App() {
       }
     }
 
-    setCurrentGrid(newGrid);
+    setGrid(newGrid);
   }
 
   function toggleActive(id) {
-    const newGrid = [...currentGrid],
+    const newGrid = [...grid],
       pos = splitId(id),
       cell = newGrid[pos[0]][pos[1]];
 
+    cell.wasActive = cell.active;
     cell.active = !cell.active;
 
-    setCurrentGrid(newGrid);
+    setGrid(newGrid);
   }
 
   function seed(key) {
-    setCurrentGrid((currentGrid) => SEED[key](currentGrid));
+    setGrid((grid) => SEED[key](grid));
   }
 
   function dropShape(row, col) {
     for (const id in renderShape(hoverPoint, selectedShape)) {
       const [row, col] = splitId(id);
 
-      currentGrid[row][col].active = true;
+      grid[row][col].active = true;
     }
 
-    setCurrentGrid(currentGrid);
-  }
-
-  function renderHoverShape() {
-    return renderShape(hoverPoint, selectedShape);
+    setGrid(grid);
   }
 
   return (
@@ -121,7 +118,7 @@ export default function App() {
           setHoverPoint={setHoverPoint}
         />
         <Grid
-          grid={currentGrid}
+          grid={grid}
           toggleActive={toggleActive}
           hoverPoint={hoverPoint}
           setHoverPoint={setHoverPoint}
