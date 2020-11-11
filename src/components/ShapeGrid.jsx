@@ -11,7 +11,8 @@ export default function ShapeGrid({
 }) {
   return (
     <div
-      className="flex flex-col bg-transparent"
+      style={{ position: "relative" }}
+      className="flex flex-col bg-transparent size-down"
       draggable
       onDragStart={() => {
         setExpanded(false);

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import Pentomino from "./shapes/Pentomino";
-import Glider from "./shapes/Glider";
-import Diehard from "./shapes/Diehard";
-import Acorn from "./shapes/Acorn";
+import AccordionShape from "./AccordionShape";
+import Pentomino from "../deprecated/shapes/Pentomino";
+import Glider from "../deprecated/shapes/Glider";
+import Diehard from "../deprecated/shapes/Diehard";
+import Acorn from "../deprecated/shapes/Acorn";
 
 import Accordion from "@material-ui/core/Accordion";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
@@ -16,7 +17,7 @@ export default function ({ selectShape, dropShape, setHoverPoint }) {
   return (
     <Accordion
       style={{
-        width: "100%",
+        width: "175vh",
         marginBottom: "2vh",
         backgroundColor: "rgba(0, 0, 0, 0)"
       }}
@@ -26,41 +27,62 @@ export default function ({ selectShape, dropShape, setHoverPoint }) {
       }}
     >
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        <Typography>Shapes</Typography>
+        <Typography variant="h6">Shapes</Typography>
       </AccordionSummary>
       <div style={{ display: "flex" }}>
-        <AccordionDetails>
-          <Pentomino
-            setExpanded={setExpanded}
-            selectShape={selectShape}
-            dropShape={dropShape}
-            setHoverPoint={setHoverPoint}
-          />
-        </AccordionDetails>
-        <AccordionDetails>
-          <Glider
-            setExpanded={setExpanded}
-            selectShape={selectShape}
-            dropShape={dropShape}
-            setHoverPoint={setHoverPoint}
-          />
-        </AccordionDetails>
-        <AccordionDetails>
-          <Diehard
-            setExpanded={setExpanded}
-            selectShape={selectShape}
-            dropShape={dropShape}
-            setHoverPoint={setHoverPoint}
-          />
-        </AccordionDetails>
-        <AccordionDetails>
-          <Acorn
-            setExpanded={setExpanded}
-            selectShape={selectShape}
-            dropShape={dropShape}
-            setHoverPoint={setHoverPoint}
-          />
-        </AccordionDetails>
+        <AccordionShape
+          rows={3}
+          cols={3}
+          center={{ row: 1, col: 1 }}
+          name="pentomino"
+          label="R-Pentomino"
+          setExpanded={setExpanded}
+          selectShape={selectShape}
+          dropShape={dropShape}
+          setHoverPoint={setHoverPoint}
+        />
+
+        <hr />
+
+        <AccordionShape
+          rows={3}
+          cols={3}
+          center={{ row: 1, col: 1 }}
+          name="glider"
+          label="Glider"
+          setExpanded={setExpanded}
+          selectShape={selectShape}
+          dropShape={dropShape}
+          setHoverPoint={setHoverPoint}
+        />
+
+        <hr />
+
+        <AccordionShape
+          rows={3}
+          cols={8}
+          center={{ row: 1, col: 3 }}
+          name="diehard"
+          label="Diehard"
+          setExpanded={setExpanded}
+          selectShape={selectShape}
+          dropShape={dropShape}
+          setHoverPoint={setHoverPoint}
+        />
+
+        <hr />
+
+        <AccordionShape
+          rows={3}
+          cols={7}
+          center={{ row: 1, col: 3 }}
+          name="acorn"
+          label="Acorn"
+          setExpanded={setExpanded}
+          selectShape={selectShape}
+          dropShape={dropShape}
+          setHoverPoint={setHoverPoint}
+        />
       </div>
     </Accordion>
   );

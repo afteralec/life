@@ -7,6 +7,7 @@ import SkipNextRoundedIcon from "@material-ui/icons/SkipNextRounded";
 import SkipPreviousRoundedIcon from "@material-ui/icons/SkipPreviousRounded";
 
 export default function ({
+  style,
   game,
   boardEmpty,
   pause,
@@ -26,7 +27,7 @@ export default function ({
   }
 
   return (
-    <div>
+    <div style={style}>
       <IconButton
         disabled={!!game || boardEmpty}
         onClick={back}

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import { AutoRotatingCarousel, Slide } from "material-auto-rotating-carousel";
 import Grid from "./components/Grid";
 import Controls from "./components/Controls";
 import ShapesAccordion from "./components/ShapesAccordion";
@@ -8,6 +10,8 @@ import ShapesAccordion from "./components/ShapesAccordion";
 import generateGrid from "./services/generateGrid";
 import splitId from "./services/splitId";
 import renderShape from "./services/renderShape";
+
+import { welcomeTitle, welcomeSubtitle } from "./services/carouselText";
 
 export default function App() {
   const [game, setGame] = useState(0); // 1 is playing, 0 is not playing
@@ -18,6 +22,7 @@ export default function App() {
   const [activeCount, setActiveCount] = useState(1);
   const [mouseDown, setMouseDown] = useState(false);
   const [mouse, setMouse] = useState({ x: null, y: null });
+  const [carouselOpen, setCarouselOpen] = useState(true);
 
   function handleContextMenu(event) {
     event.preventDefault();
@@ -102,6 +107,7 @@ export default function App() {
 
   return (
     <>
+      <CssBaseline />
       <div
         className="flex flex-col flex-center app-margin-top"
         onContextMenu={handleContextMenu}
@@ -126,6 +132,10 @@ export default function App() {
           mouseDown={mouseDown}
         />
         <Controls
+          style={{
+            opacity: carouselOpen ? 0 : 1,
+            transition: "all 1000ms ease-in-out"
+          }}
           boardEmpty={activeCount === 0}
           playing={game && activeCount > 0}
           game={game}
@@ -165,6 +175,27 @@ export default function App() {
           </MenuItem>
         </Menu>
       </div>
+      <AutoRotatingCarousel
+        label="Let's Go!"
+        open={carouselOpen}
+        autoplay={false}
+        onClose={() => setCarouselOpen(false)}
+        onStart={() => setCarouselOpen(false)}
+        style={{ position: "absolute" }}
+      >
+        <Slide
+          media={<div>Media!</div>}
+          mediaBackgroundStyle={{ backgroundColor: "firebrick" }}
+          title={welcomeTitle}
+          subtitle={welcomeSubtitle}
+        />
+        <Slide
+          media={<div>Media!</div>}
+          mediaBackgroundStyle={{ backgroundColor: "firebrick" }}
+          title="Test title"
+          subtitle="Test subtitle"
+        />
+      </AutoRotatingCarousel>
     </>
   );
 }

@@ -17,6 +17,16 @@
   border-radius: 100%;
 }
 
+.size-down {
+  transform: scale(0.8);
+  transition-property: transform;
+  transition-duration: 250ms;
+}
+
+.size-down:hover {
+  transform: scale(0.8) translateY(-2vh);
+}
+
 .cell-active {
   animation-name: activeAnimation;
   animation-duration: 750ms;
@@ -52,7 +62,11 @@
 
 .flex-center {
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
+}
+
+.flex-between {
+  justify-content: space-between;
 }
 
 .flex-col {
