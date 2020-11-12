@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ShapeGrid from "./ShapeGrid";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 
@@ -17,6 +17,7 @@ export default function AccordionShape({
   dropShape,
   setHoverPoint
 }) {
+  const [hover, setHover] = useState(false);
   const grid = generateGrid(rows, cols, name);
 
   for (const id in renderShape(center, name, name)) {
@@ -34,10 +35,15 @@ export default function AccordionShape({
         justifyContent: "center",
         alignItems: "center"
       }}
+      onMouseOver={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
     >
       <ShapeGrid
+        style={{
+          transform: hover ? "scale(0.8) translateY(-2vh)" : "scale(0.8)"
+        }}
         grid={grid}
-        shape="pentomino"
+        shape={name}
         setExpanded={setExpanded}
         selectShape={selectShape}
         dropShape={dropShape}
@@ -47,11 +53,13 @@ export default function AccordionShape({
         style={{
           position: "absolute",
           bottom: "2.5vh",
-          fontSize: "0.85rem",
-          //transform: "translateY(-2.5vh)",
+          fontSize: "0.95rem",
           margin: 0,
           padding: 0,
-          textAlign: "center"
+          textAlign: "center",
+          opacity: hover ? 1 : 0,
+          transitionProperty: "opacity",
+          transitionDuration: "250ms"
         }}
       >
         {label}

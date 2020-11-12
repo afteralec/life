@@ -17,11 +17,11 @@
   border-radius: 100%;
 }
 
-.size-down {
+/* .size-down {
   transform: scale(0.8);
   transition-property: transform;
   transition-duration: 250ms;
-}
+} */
 
 .size-down:hover {
   transform: scale(0.8) translateY(-2vh);
