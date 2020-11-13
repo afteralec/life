@@ -7,7 +7,11 @@ export default function Row({
   hoverShape,
   hoverPoint,
   setHoverPoint,
-  mouseDown
+  mouseDown,
+  dragging,
+  setDrag,
+  selectShape,
+  dropShape
 }) {
   return (
     <div className="flex">
@@ -20,6 +24,10 @@ export default function Row({
           setHoverPoint={setHoverPoint}
           hovered={!!hoverShape[cell.id]}
           mouseDown={mouseDown}
+          dragging={dragging}
+          setDrag={setDrag}
+          selectShape={selectShape}
+          dropShape={dropShape}
         />
       ))}
     </div>

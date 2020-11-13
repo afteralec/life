@@ -23,6 +23,7 @@ export default function App() {
   const [mouseDown, setMouseDown] = useState(false);
   const [mouse, setMouse] = useState({ x: null, y: null });
   const [carouselOpen, setCarouselOpen] = useState(true);
+  const [dragging, setDrag] = useState(false);
 
   function handleContextMenu(event) {
     event.preventDefault();
@@ -109,12 +110,16 @@ export default function App() {
     <>
       <CssBaseline />
       <div
+        style={{
+          cursor: dragging ? "grabbing" : "auto"
+        }}
         className="flex flex-col flex-center app-margin-top"
         onContextMenu={handleContextMenu}
         onMouseDown={() => {
           setMouseDown(true);
         }}
         onMouseUp={() => {
+          setDrag(false);
           setMouseDown(false);
         }}
       >
@@ -122,6 +127,8 @@ export default function App() {
           selectShape={selectShape}
           dropShape={dropShape}
           setHoverPoint={setHoverPoint}
+          dragging={dragging}
+          setDrag={setDrag}
         />
         <Grid
           grid={grid}
@@ -130,6 +137,10 @@ export default function App() {
           setHoverPoint={setHoverPoint}
           hoverShape={renderShape(hoverPoint, selectedShape)}
           mouseDown={mouseDown}
+          dragging={dragging}
+          setDrag={setDrag}
+          selectShape={selectShape}
+          dropShape={dropShape}
         />
         <Controls
           style={{

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import ShapeGridRow from "./ShapeGridRow";
 
 export default function ShapeGrid({
@@ -8,10 +8,10 @@ export default function ShapeGrid({
   selectShape,
   dropShape,
   setHoverPoint,
-  style = {}
+  style = {},
+  dragging,
+  setDrag
 }) {
-  const [dragging, setDrag] = useState(false);
-
   return (
     <div
       style={{
@@ -21,9 +21,16 @@ export default function ShapeGrid({
         ...style
       }}
       className="flex flex-col bg-transparent"
-      draggable
-      onMouseDown={() => setDrag(true)}
-      onMouseUp={() => setDrag(false)}
+      onMouseDown={() => {
+        setDrag(true);
+        setExpanded(false);
+        selectShape(shape);
+      }}
+      onMouseUp={() => {
+        setDrag(false);
+        setExpanded(true);
+        selectShape("");
+      }}
       onDragStart={() => {
         setDrag(true);
         setExpanded(false);

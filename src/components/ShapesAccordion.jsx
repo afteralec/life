@@ -11,7 +11,13 @@ import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
-export default function ({ selectShape, dropShape, setHoverPoint }) {
+export default function ({
+  selectShape,
+  dropShape,
+  setHoverPoint,
+  dragging,
+  setDrag
+}) {
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -40,6 +46,8 @@ export default function ({ selectShape, dropShape, setHoverPoint }) {
           selectShape={selectShape}
           dropShape={dropShape}
           setHoverPoint={setHoverPoint}
+          dragging={dragging}
+          setDrag={setDrag}
         />
 
         <hr />
@@ -54,6 +62,8 @@ export default function ({ selectShape, dropShape, setHoverPoint }) {
           selectShape={selectShape}
           dropShape={dropShape}
           setHoverPoint={setHoverPoint}
+          dragging={dragging}
+          setDrag={setDrag}
         />
 
         <hr />
@@ -68,6 +78,8 @@ export default function ({ selectShape, dropShape, setHoverPoint }) {
           selectShape={selectShape}
           dropShape={dropShape}
           setHoverPoint={setHoverPoint}
+          dragging={dragging}
+          setDrag={setDrag}
         />
 
         <hr />
@@ -82,6 +94,8 @@ export default function ({ selectShape, dropShape, setHoverPoint }) {
           selectShape={selectShape}
           dropShape={dropShape}
           setHoverPoint={setHoverPoint}
+          dragging={dragging}
+          setDrag={setDrag}
         />
       </div>
     </Accordion>

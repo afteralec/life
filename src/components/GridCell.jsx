@@ -9,7 +9,11 @@ export default function GridCell({
   toggleActive,
   hoverPoint,
   setHoverPoint,
-  hovered
+  hovered,
+  dragging,
+  setDrag,
+  selectShape,
+  dropShape
 }) {
   function activeClass() {
     if (active) {
@@ -21,10 +25,19 @@ export default function GridCell({
 
   return (
     <div
-      onDragOver={() => {
+      onMouseUp={() => {
+        setDrag(false);
+        selectShape("");
+        dropShape();
+        setHoverPoint({});
+      }}
+      onMouseEnter={() => {
+        if (!dragging) return;
+
         if (row === hoverPoint.row && col === hoverPoint.col) return;
         setHoverPoint({ row, col });
       }}
+      onDrop={(event) => event.preventDefault()}
       onClick={() => toggleActive(id)}
       className="flex flex-center border cell-size"
     >

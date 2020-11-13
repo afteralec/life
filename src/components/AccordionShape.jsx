@@ -15,7 +15,9 @@ export default function AccordionShape({
   setExpanded,
   selectShape,
   dropShape,
-  setHoverPoint
+  setHoverPoint,
+  dragging,
+  setDrag
 }) {
   const [hover, setHover] = useState(false);
   const grid = generateGrid(rows, cols, name);
@@ -48,6 +50,8 @@ export default function AccordionShape({
         selectShape={selectShape}
         dropShape={dropShape}
         setHoverPoint={setHoverPoint}
+        dragging={dragging}
+        setDrag={setDrag}
       />
       <span
         style={{

@@ -7,7 +7,11 @@ export default function Grid({
   hoverPoint,
   setHoverPoint,
   hoverShape,
-  mouseDown
+  mouseDown,
+  dragging,
+  setDrag,
+  selectShape,
+  dropShape
 }) {
   return (
     <div className="flex flex-col border">
@@ -20,6 +24,10 @@ export default function Grid({
           setHoverPoint={setHoverPoint}
           toggleActive={toggleActive}
           mouseDown={mouseDown}
+          dragging={dragging}
+          setDrag={setDrag}
+          selectShape={selectShape}
+          dropShape={dropShape}
         />
       ))}
     </div>
