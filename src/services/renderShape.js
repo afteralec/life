@@ -1,4 +1,3 @@
-import ShapeGrid from "../components/ShapeGrid";
 import makeId from "./makeId";
 import shapes from "./shapes";
 

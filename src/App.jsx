@@ -2,16 +2,15 @@ import React, { useState } from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import { AutoRotatingCarousel, Slide } from "material-auto-rotating-carousel";
+
 import Grid from "./components/Grid";
 import Controls from "./components/Controls";
 import ShapesAccordion from "./components/ShapesAccordion";
+import WelcomeDialog from "./components/WelcomeDialog";
 
 import generateGrid from "./services/generateGrid";
 import splitId from "./services/splitId";
 import renderShape from "./services/renderShape";
-
-import { welcomeTitle, welcomeSubtitle } from "./services/carouselText";
 
 export default function App() {
   const [game, setGame] = useState(0); // 1 is playing, 0 is not playing
@@ -19,11 +18,11 @@ export default function App() {
   const [timeStep, setTimeStep] = useState(1000);
   const [selectedShape, selectShape] = useState("");
   const [hoverPoint, setHoverPoint] = useState({});
-  const [activeCount, setActiveCount] = useState(1);
   const [mouseDown, setMouseDown] = useState(false);
   const [mouse, setMouse] = useState({ x: null, y: null });
-  const [carouselOpen, setCarouselOpen] = useState(true);
   const [dragging, setDrag] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [welcomeOpen, setWelcomeOpen] = useState(true);
 
   function handleContextMenu(event) {
     event.preventDefault();
@@ -108,7 +107,9 @@ export default function App() {
 
   return (
     <>
-      <CssBaseline />
+      <CssBaseline
+      // Baseline component to provide style reset from Material UI
+      />
       <div
         style={{
           cursor: dragging ? "grabbing" : "auto"
@@ -124,13 +125,18 @@ export default function App() {
         }}
       >
         <ShapesAccordion
+          // Shapes drawer at the top of the UI
+          drawerOpen={drawerOpen}
+          setDrawerOpen={setDrawerOpen}
           selectShape={selectShape}
           dropShape={dropShape}
           setHoverPoint={setHoverPoint}
           dragging={dragging}
           setDrag={setDrag}
         />
+
         <Grid
+          // The main grid on the UI; this is where the game is played
           grid={grid}
           toggleActive={toggleActive}
           hoverPoint={hoverPoint}
@@ -143,12 +149,12 @@ export default function App() {
           dropShape={dropShape}
         />
         <Controls
+          // Controls for back, play, pause, and forward
           style={{
-            opacity: carouselOpen ? 0 : 1,
-            transition: "all 1000ms ease-in-out"
+            opacity: drawerOpen ? 0 : 1,
+            transition: "all 100ms ease",
+            transitionDelay: !drawerOpen ? "250ms" : ""
           }}
-          boardEmpty={activeCount === 0}
-          playing={game && activeCount > 0}
           game={game}
           play={play}
           pause={pause}
@@ -158,6 +164,7 @@ export default function App() {
           setTimeStep={setTimeStep}
         />
         <Menu
+          // Context menu for when you right click
           keepMounted
           open={mouse.y !== null}
           onClose={handleCloseMenu}
@@ -186,27 +193,7 @@ export default function App() {
           </MenuItem>
         </Menu>
       </div>
-      <AutoRotatingCarousel
-        label="Let's Go!"
-        open={carouselOpen}
-        autoplay={false}
-        onClose={() => setCarouselOpen(false)}
-        onStart={() => setCarouselOpen(false)}
-        style={{ position: "absolute" }}
-      >
-        <Slide
-          media={<div>Media!</div>}
-          mediaBackgroundStyle={{ backgroundColor: "firebrick" }}
-          title={welcomeTitle}
-          subtitle={welcomeSubtitle}
-        />
-        <Slide
-          media={<div>Media!</div>}
-          mediaBackgroundStyle={{ backgroundColor: "firebrick" }}
-          title="Test title"
-          subtitle="Test subtitle"
-        />
-      </AutoRotatingCarousel>
+      <WelcomeDialog open={welcomeOpen} setOpen={setWelcomeOpen} />
     </>
   );
 }

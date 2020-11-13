@@ -1,25 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 import AccordionShape from "./AccordionShape";
-import Pentomino from "../deprecated/shapes/Pentomino";
-import Glider from "../deprecated/shapes/Glider";
-import Diehard from "../deprecated/shapes/Diehard";
-import Acorn from "../deprecated/shapes/Acorn";
 
 import Accordion from "@material-ui/core/Accordion";
-import AccordionDetails from "@material-ui/core/AccordionDetails";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 export default function ({
+  drawerOpen,
+  setDrawerOpen,
   selectShape,
   dropShape,
   setHoverPoint,
   dragging,
   setDrag
 }) {
-  const [expanded, setExpanded] = useState(false);
-
   return (
     <Accordion
       style={{
@@ -27,9 +22,9 @@ export default function ({
         marginBottom: "2vh",
         backgroundColor: "rgba(0, 0, 0, 0)"
       }}
-      expanded={expanded}
+      expanded={drawerOpen}
       onClick={() => {
-        setExpanded((expanded) => !expanded);
+        setDrawerOpen((drawerOpen) => !drawerOpen);
       }}
     >
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -42,7 +37,7 @@ export default function ({
           center={{ row: 1, col: 1 }}
           name="pentomino"
           label="R-Pentomino"
-          setExpanded={setExpanded}
+          setExpanded={setDrawerOpen}
           selectShape={selectShape}
           dropShape={dropShape}
           setHoverPoint={setHoverPoint}
@@ -58,7 +53,7 @@ export default function ({
           center={{ row: 1, col: 1 }}
           name="glider"
           label="Glider"
-          setExpanded={setExpanded}
+          setExpanded={setDrawerOpen}
           selectShape={selectShape}
           dropShape={dropShape}
           setHoverPoint={setHoverPoint}
@@ -74,7 +69,7 @@ export default function ({
           center={{ row: 1, col: 3 }}
           name="diehard"
           label="Diehard"
-          setExpanded={setExpanded}
+          setExpanded={setDrawerOpen}
           selectShape={selectShape}
           dropShape={dropShape}
           setHoverPoint={setHoverPoint}
@@ -90,7 +85,7 @@ export default function ({
           center={{ row: 1, col: 3 }}
           name="acorn"
           label="Acorn"
-          setExpanded={setExpanded}
+          setExpanded={setDrawerOpen}
           selectShape={selectShape}
           dropShape={dropShape}
           setHoverPoint={setHoverPoint}

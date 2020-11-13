@@ -9,7 +9,6 @@ import SkipPreviousRoundedIcon from "@material-ui/icons/SkipPreviousRounded";
 export default function ({
   style,
   game,
-  boardEmpty,
   pause,
   play,
   step,
@@ -27,41 +26,51 @@ export default function ({
   }
 
   return (
-    <div style={style}>
-      <IconButton
-        disabled={!!game || boardEmpty}
-        onClick={back}
-        color="primary"
+    <div style={{ width: "100%", ...style }}>
+      <div
+        style={{
+          position: "absolute",
+          bottom: "7vh",
+          left: "14vh",
+          width: "85%"
+        }}
       >
-        <SkipPreviousRoundedIcon fontSize="large" />
-      </IconButton>
-
-      {!game ? (
-        <IconButton onClick={play} disabled={boardEmpty} color="primary">
-          <PlayArrowRoundedIcon fontSize="large" />
+        <IconButton disabled={!!game} onClick={back} color="primary">
+          <SkipPreviousRoundedIcon fontSize="large" />
         </IconButton>
-      ) : (
-        <IconButton onClick={pause} disabled={boardEmpty} color="primary">
-          <PauseRoundedIcon fontSize="large" />
-        </IconButton>
-      )}
 
-      <IconButton
-        disabled={!!game || boardEmpty}
-        onClick={step}
-        color="primary"
+        {!game ? (
+          <IconButton onClick={play} color="primary">
+            <PlayArrowRoundedIcon fontSize="large" />
+          </IconButton>
+        ) : (
+          <IconButton onClick={pause} color="primary">
+            <PauseRoundedIcon fontSize="large" />
+          </IconButton>
+        )}
+
+        <IconButton disabled={!!game} onClick={step} color="primary">
+          <SkipNextRoundedIcon fontSize="large" />
+        </IconButton>
+      </div>
+
+      <div
+        style={{
+          position: "absolute",
+          bottom: "7.25vh",
+          right: "14vh",
+          width: "15%"
+        }}
       >
-        <SkipNextRoundedIcon fontSize="large" />
-      </IconButton>
-
-      <Slider
-        disabled={!!game}
-        value={sliderValue}
-        onChange={sliderChange}
-        onMouseUp={updateTimeStep}
-        onMouseLeave={updateTimeStep}
-        aria-labelledby="continuous-slider"
-      />
+        <Slider
+          disabled={!!game}
+          value={sliderValue}
+          onChange={sliderChange}
+          onMouseUp={updateTimeStep}
+          onMouseLeave={updateTimeStep}
+          aria-labelledby="continuous-slider"
+        />
+      </div>
     </div>
   );
 }
