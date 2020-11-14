@@ -39,12 +39,21 @@ export default function GridCell({
       }}
       onDrop={(event) => event.preventDefault()}
       onClick={() => toggleActive(id)}
-      className="flex flex-center border cell-size"
+      style={{
+        height: "3.5vh",
+        width: "3.5vh",
+        display: "flex",
+        flexDirection: "column",
+        border: "0.5px solid #333"
+      }}
     >
       <div
-        className={`inner-cell-size ${
-          hovered ? "cell-hovered" : activeClass()
-        }`}
+        style={{
+          height: "3.25vh",
+          width: "3.25vh",
+          borderRadius: "100%"
+        }}
+        className={`${hovered ? "cell-hovered" : activeClass()}`}
       />
     </div>
   );

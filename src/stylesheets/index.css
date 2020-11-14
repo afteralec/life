@@ -1,32 +1,3 @@
-.border {
-  border: 0.5px solid #333;
-}
-
-.bg-transparent {
-  background-color: rgba(0, 0, 0, 0);
-}
-
-.cell-size {
-  width: 3.5vh;
-  height: 3.5vh;
-}
-
-.inner-cell-size {
-  width: 3.25vh;
-  height: 3.25vh;
-  border-radius: 100%;
-}
-
-/* .size-down {
-  transform: scale(0.8);
-  transition-property: transform;
-  transition-duration: 250ms;
-} */
-
-.size-down:hover {
-  transform: scale(0.8) translateY(-2vh);
-}
-
 .cell-active {
   animation-name: activeAnimation;
   animation-duration: 750ms;
@@ -54,27 +25,6 @@
   background-color: firebrick;
   transition-property: background-color transform;
   transition-duration: 500ms;
-}
-
-.flex {
-  display: flex;
-}
-
-.flex-center {
-  align-items: center;
-  /* justify-content: center; */
-}
-
-.flex-between {
-  justify-content: space-between;
-}
-
-.flex-col {
-  flex-direction: column;
-}
-
-.app-margin-top {
-  margin-top: 3vh;
 }
 
 @keyframes activeAnimation {

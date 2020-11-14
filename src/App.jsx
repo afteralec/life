@@ -112,9 +112,12 @@ export default function App() {
       />
       <div
         style={{
+          marginTop: "3vh",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
           cursor: dragging ? "grabbing" : "auto"
         }}
-        className="flex flex-col flex-center app-margin-top"
         onContextMenu={handleContextMenu}
         onMouseDown={() => {
           setMouseDown(true);

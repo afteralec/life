@@ -14,7 +14,13 @@ export default function Grid({
   dropShape
 }) {
   return (
-    <div className="flex flex-col border">
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        border: "0.5px solid #333"
+      }}
+    >
       {grid.map((row, index) => (
         <GridRow
           key={index}

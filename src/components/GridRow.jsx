@@ -14,7 +14,7 @@ export default function Row({
   dropShape
 }) {
   return (
-    <div className="flex">
+    <div style={{ display: "flex" }}>
       {row.map((cell) => (
         <GridCell
           key={cell.id}

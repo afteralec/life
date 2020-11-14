@@ -18,6 +18,7 @@ export default function ({
   const [sliderValue, setSliderValue] = useState(50);
 
   function sliderChange(event, value) {
+    event.preventDefault();
     setSliderValue(value);
   }
 

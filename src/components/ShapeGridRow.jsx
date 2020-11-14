@@ -3,7 +3,7 @@ import ShapeGridCell from "./ShapeGridCell";
 
 export default function ShapeRow({ row }) {
   return (
-    <div className="flex">
+    <div style={{ display: "flex" }}>
       {row.map((cell) => (
         <ShapeGridCell key={cell.id} {...cell} />
       ))}

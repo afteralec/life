@@ -15,12 +15,14 @@ export default function ShapeGrid({
   return (
     <div
       style={{
+        display: "flex",
+        flexDirection: "column",
+        backgroundColor: "rgba(0, 0, 0, 0)",
         cursor: dragging ? "grabbing" : "grab",
         transitionProperty: "transform",
         transitionDuration: "250ms",
         ...style
       }}
-      className="flex flex-col bg-transparent"
       onMouseDown={() => {
         setDrag(true);
         setExpanded(false);
