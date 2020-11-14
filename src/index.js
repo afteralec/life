@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./stylesheets/reset.css";
-import "./stylesheets/index.css";
+import "./stylesheets/animations.css";
 import App from "./App";
 import * as serviceWorker from "./services/serviceWorker";
 

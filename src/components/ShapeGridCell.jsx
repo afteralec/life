@@ -14,9 +14,9 @@ export default function ShapeGridCell({ active }) {
         style={{
           height: "3.25vh",
           width: "3.25vh",
-          borderRadius: "100%"
+          borderRadius: "100%",
+          backgroundColor: active && "#333"
         }}
-        className={`${active && "cell-active"}`}
       />
     </div>
   );

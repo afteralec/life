@@ -15,12 +15,41 @@ export default function GridCell({
   selectShape,
   dropShape
 }) {
-  function activeClass() {
+  function cellStyles() {
+    if (hovered) {
+      return {
+        backgroundColor: "#333",
+        opacity: "0.5",
+        transform: "scale(1)"
+      };
+    }
+
     if (active) {
-      return "cell-active";
+      return {
+        backgroundColor: "#333",
+        animationName: "activeAnimation",
+        animationDuration: "750ms",
+        animationTimingFunction: "ease-in-out",
+        animationDelay: 0,
+        animationDirection: "alternate",
+        animationIterationCount: 1
+      };
     } else if (wasActive) {
-      return "cell-inactive";
-    } else return "";
+      return {
+        backgroundColor: "firebrick",
+        transform: "scale(0)",
+        animationName: "inactiveAnimation",
+        animationDuration: "500ms",
+        animationTimingFunction: "ease-in-out",
+        animationDelay: 0,
+        animationDirection: "alternate",
+        animationIterationCount: 1,
+        transitionProperty: "background-color transform",
+        transitionDuration: "500ms"
+      };
+    } else {
+      return {};
+    }
   }
 
   return (
@@ -51,9 +80,9 @@ export default function GridCell({
         style={{
           height: "3.25vh",
           width: "3.25vh",
-          borderRadius: "100%"
+          borderRadius: "100%",
+          ...cellStyles()
         }}
-        className={`${hovered ? "cell-hovered" : activeClass()}`}
       />
     </div>
   );

@@ -95,9 +95,12 @@ export default function App() {
     setGrid((grid) => SEED[key](grid));
   }
 
+  // TODO: Make this respect the bounding grid
   function dropShape(row, col) {
     for (const id in renderShape(hoverPoint, selectedShape)) {
       const [row, col] = splitId(id);
+
+      if (!grid[row][col]) continue;
 
       grid[row][col].active = true;
     }
