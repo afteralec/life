@@ -1,5 +1,5 @@
 import React from "react";
-import ShapeGridCell from "./ShapeGridCell";
+import ShapeGridCell from "../components/ShapeGridCell";
 
 export default function ShapeRow({ row }) {
   return (

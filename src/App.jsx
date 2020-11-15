@@ -1,28 +1,33 @@
 import React, { useState } from "react";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
 
+// Material UI Component imports
+import CssBaseline from "@material-ui/core/CssBaseline";
+
+// App Component imports
 import Grid from "./components/Grid";
 import Controls from "./components/Controls";
 import ShapesAccordion from "./components/ShapesAccordion";
+import AccordionShape from "./components/AccordionShape";
+import ContextMenu from "./components/ContextMenu";
 import WelcomeDialog from "./components/WelcomeDialog";
 
+// App javaScript service file imports
 import generateGrid from "./services/generateGrid";
 import splitId from "./services/splitId";
+import shapes from "./services/shapes";
 import renderShape from "./services/renderShape";
 
 export default function App() {
-  const [game, setGame] = useState(0); // 1 is playing, 0 is not playing
-  const [grid, setGrid] = useState(generateGrid());
-  const [timeStep, setTimeStep] = useState(1000);
-  const [selectedShape, selectShape] = useState("");
-  const [hoverPoint, setHoverPoint] = useState({});
-  const [mouseDown, setMouseDown] = useState(false);
-  const [mouse, setMouse] = useState({ x: null, y: null });
-  const [dragging, setDrag] = useState(false);
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [welcomeOpen, setWelcomeOpen] = useState(true);
+  const [game, setGame] = useState(0), // 0 is not playing, any other number is playing
+    [grid, setGrid] = useState(generateGrid()),
+    [timeStep, setTimeStep] = useState(1000),
+    [selectedShape, selectShape] = useState(""),
+    [hoverPoint, setHoverPoint] = useState({}),
+    [mouseDown, setMouseDown] = useState(false),
+    [mouse, setMouse] = useState({ x: null, y: null }),
+    [dragging, setDrag] = useState(false),
+    [drawerOpen, setDrawerOpen] = useState(false),
+    [welcomeOpen, setWelcomeOpen] = useState(true);
 
   function handleContextMenu(event) {
     event.preventDefault();
@@ -43,11 +48,6 @@ export default function App() {
   function pause() {
     clearInterval(game);
     setGame(0);
-  }
-
-  function clear() {
-    pause();
-    setGrid(generateGrid());
   }
 
   function step() {
@@ -91,10 +91,6 @@ export default function App() {
     setGrid(newGrid);
   }
 
-  function seed(key) {
-    setGrid((grid) => SEED[key](grid));
-  }
-
   // TODO: Make this respect the bounding grid
   function dropShape(row, col) {
     for (const id in renderShape(hoverPoint, selectedShape)) {
@@ -106,6 +102,34 @@ export default function App() {
     }
 
     setGrid(grid);
+  }
+
+  function renderAccordionShapes(shapes) {
+    let rule = false;
+    return Object.keys(shapes).map((shape) => {
+      const result = (
+        <>
+          {rule && <hr />}
+          <AccordionShape
+            key={shapes[shape].name}
+            rows={shapes[shape].rows}
+            cols={shapes[shape].cols}
+            center={shapes[shape].center}
+            name={shapes[shape].name}
+            label={shapes[shape].label}
+            setExpanded={setDrawerOpen}
+            selectShape={selectShape}
+            dropShape={dropShape}
+            setHoverPoint={setHoverPoint}
+            dragging={dragging}
+            setDrag={setDrag}
+          />
+        </>
+      );
+
+      rule = true;
+      return result;
+    });
   }
 
   return (
@@ -132,13 +156,9 @@ export default function App() {
       >
         <ShapesAccordion
           // Shapes drawer at the top of the UI
+          renderedAccordionShapes={renderAccordionShapes(shapes)}
           drawerOpen={drawerOpen}
           setDrawerOpen={setDrawerOpen}
-          selectShape={selectShape}
-          dropShape={dropShape}
-          setHoverPoint={setHoverPoint}
-          dragging={dragging}
-          setDrag={setDrag}
         />
 
         <Grid
@@ -154,6 +174,7 @@ export default function App() {
           selectShape={selectShape}
           dropShape={dropShape}
         />
+
         <Controls
           // Controls for back, play, pause, and forward
           style={{
@@ -169,52 +190,20 @@ export default function App() {
           timeStep={timeStep}
           setTimeStep={setTimeStep}
         />
-        <Menu
-          // Context menu for when you right click
-          keepMounted
-          open={mouse.y !== null}
-          onClose={handleCloseMenu}
-          anchorReference="anchorPosition"
-          anchorPosition={
-            mouse.y !== null && mouse.x !== null
-              ? { top: mouse.y, left: mouse.x }
-              : undefined
-          }
-        >
-          <MenuItem
-            onClick={() => {
-              clear();
-              handleCloseMenu();
-            }}
-          >
-            Clear
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              seed("random");
-              handleCloseMenu();
-            }}
-          >
-            Random
-          </MenuItem>
-        </Menu>
+
+        <ContextMenu
+          mouse={mouse}
+          pause={pause}
+          handleCloseMenu={handleCloseMenu}
+          setGrid={setGrid}
+        />
       </div>
-      <WelcomeDialog open={welcomeOpen} setOpen={setWelcomeOpen} />
+
+      <WelcomeDialog
+        // Welcome dialog with app summary
+        open={welcomeOpen}
+        setOpen={setWelcomeOpen}
+      />
     </>
   );
 }
-
-const SEED = {
-  random: (grid) => {
-    const newGrid = [...grid];
-
-    for (const row of newGrid) {
-      for (const cell of row) {
-        cell.active = Math.random() >= 0.7;
-        cell.history = [cell.active];
-      }
-    }
-
-    return newGrid;
-  }
-};

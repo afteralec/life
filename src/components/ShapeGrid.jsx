@@ -1,5 +1,5 @@
 import React from "react";
-import ShapeGridRow from "./ShapeGridRow";
+import ShapeGridCell from "./ShapeGridCell";
 
 export default function ShapeGrid({
   grid,
@@ -46,7 +46,11 @@ export default function ShapeGrid({
       }}
     >
       {grid.map((row, index) => (
-        <ShapeGridRow key={index} row={row} />
+        <div key={index} style={{ display: "flex" }}>
+          {row.map((cell) => (
+            <ShapeGridCell key={cell.id} {...cell} />
+          ))}
+        </div>
       ))}
     </div>
   );

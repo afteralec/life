@@ -1,19 +1,15 @@
 import React from "react";
-import AccordionShape from "./AccordionShape";
 
+// Material UI Components
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 export default function ({
+  renderedAccordionShapes,
   drawerOpen,
-  setDrawerOpen,
-  selectShape,
-  dropShape,
-  setHoverPoint,
-  dragging,
-  setDrag
+  setDrawerOpen
 }) {
   return (
     <Accordion
@@ -30,69 +26,7 @@ export default function ({
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <Typography variant="h6">Shapes</Typography>
       </AccordionSummary>
-      <div style={{ display: "flex" }}>
-        <AccordionShape
-          rows={3}
-          cols={3}
-          center={{ row: 1, col: 1 }}
-          name="pentomino"
-          label="R-Pentomino"
-          setExpanded={setDrawerOpen}
-          selectShape={selectShape}
-          dropShape={dropShape}
-          setHoverPoint={setHoverPoint}
-          dragging={dragging}
-          setDrag={setDrag}
-        />
-
-        <hr />
-
-        <AccordionShape
-          rows={3}
-          cols={3}
-          center={{ row: 1, col: 1 }}
-          name="glider"
-          label="Glider"
-          setExpanded={setDrawerOpen}
-          selectShape={selectShape}
-          dropShape={dropShape}
-          setHoverPoint={setHoverPoint}
-          dragging={dragging}
-          setDrag={setDrag}
-        />
-
-        <hr />
-
-        <AccordionShape
-          rows={3}
-          cols={8}
-          center={{ row: 1, col: 3 }}
-          name="diehard"
-          label="Diehard"
-          setExpanded={setDrawerOpen}
-          selectShape={selectShape}
-          dropShape={dropShape}
-          setHoverPoint={setHoverPoint}
-          dragging={dragging}
-          setDrag={setDrag}
-        />
-
-        <hr />
-
-        <AccordionShape
-          rows={3}
-          cols={7}
-          center={{ row: 1, col: 3 }}
-          name="acorn"
-          label="Acorn"
-          setExpanded={setDrawerOpen}
-          selectShape={selectShape}
-          dropShape={dropShape}
-          setHoverPoint={setHoverPoint}
-          dragging={dragging}
-          setDrag={setDrag}
-        />
-      </div>
+      <div style={{ display: "flex" }}>{renderedAccordionShapes}</div>
     </Accordion>
   );
 }

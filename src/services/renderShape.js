@@ -6,7 +6,7 @@ export default function renderShape({ row, col }, selectedShape, key = "main") {
 
   const shape = {};
 
-  shapes[selectedShape].forEach((coords) => {
+  shapes[selectedShape].coords.forEach((coords) => {
     shape[makeId(key, row + coords[0], col + coords[1])] = true;
   });
 
