@@ -16,6 +16,7 @@ export default function ContextMenu({
 }) {
   function clear() {
     // TODO: add logic to the grid to pause if the state is stable; can remove pause() then
+    // TODO: add a dialog to acknowledge that the state is now stable
     pause();
     setGrid(generateGrid());
   }
