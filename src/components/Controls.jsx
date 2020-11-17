@@ -8,7 +8,7 @@ import SkipPreviousRoundedIcon from "@material-ui/icons/SkipPreviousRounded";
 
 export default function ({
   style,
-  game,
+  playing,
   pause,
   play,
   step,
@@ -31,19 +31,11 @@ export default function ({
     setSliderValue(value);
     pause();
 
-    if (game) setPlayOnSliderMouseUp(true);
+    if (playing) setPlayOnSliderMouseUp(true);
   }
 
   function updateTimeStep() {
     setTimeStep(1350 - sliderValue * 10);
-    // if (playOnSliderMouseUp) {
-    //   setTimeStep(1350 - sliderValue * 10, () => {
-    //     play();
-    //     setPlayOnSliderMouseUp(false);
-    //   });
-    // } else {
-
-    // }
   }
 
   return (
@@ -56,11 +48,11 @@ export default function ({
           width: "85%"
         }}
       >
-        <IconButton disabled={!!game} onClick={back} color="primary">
+        <IconButton disabled={!!playing} onClick={back} color="primary">
           <SkipPreviousRoundedIcon fontSize="large" />
         </IconButton>
 
-        {!game ? (
+        {!playing ? (
           <IconButton onClick={play} color="primary">
             <PlayArrowRoundedIcon fontSize="large" />
           </IconButton>
@@ -70,7 +62,7 @@ export default function ({
           </IconButton>
         )}
 
-        <IconButton disabled={!!game} onClick={step} color="primary">
+        <IconButton disabled={!!playing} onClick={step} color="primary">
           <SkipNextRoundedIcon fontSize="large" />
         </IconButton>
       </div>
@@ -84,7 +76,6 @@ export default function ({
         }}
       >
         <Slider
-          //disabled={!!game}
           value={sliderValue}
           onChange={sliderChange}
           onMouseDown={() => pause()}

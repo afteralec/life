@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 // Material UI Component imports
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -18,7 +18,7 @@ import shapes from "./services/shapes";
 import renderShape from "./services/renderShape";
 
 export default function App() {
-  const [game, setGame] = useState(0), // 0 is not playing, any other number is playing
+  const [playing, setPlaying] = useState(false),
     [grid, setGrid] = useState(generateGrid()),
     [timeStep, setTimeStep] = useState(1000),
     [selectedShape, selectShape] = useState(""),
@@ -28,6 +28,18 @@ export default function App() {
     [dragging, setDrag] = useState(false),
     [drawerOpen, setDrawerOpen] = useState(false),
     [welcomeOpen, setWelcomeOpen] = useState(true);
+
+  // Play the game
+  useEffect(() => {
+    let gameInterval;
+
+    if (playing) {
+      gameInterval = setInterval(step, timeStep);
+    }
+
+    return () => clearInterval(gameInterval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [playing]);
 
   function handleContextMenu(event) {
     event.preventDefault();
@@ -42,22 +54,25 @@ export default function App() {
   }
 
   function play() {
-    setGame(setInterval(step, timeStep));
+    setPlaying(true);
   }
 
   function pause() {
-    clearInterval(game);
-    setGame(0);
+    setPlaying(false);
   }
 
   function step() {
     const newGrid = [...grid];
 
+    let stable = true;
     for (const row of newGrid) {
       for (const cell of row) {
         cell.applyRules(grid);
+        if (cell.active !== cell.willBeActive) stable = false;
       }
     }
+
+    if (stable) pause();
 
     for (const row of newGrid) {
       for (const cell of row) {
@@ -91,7 +106,6 @@ export default function App() {
     setGrid(newGrid);
   }
 
-  // TODO: Make this respect the bounding grid
   function dropShape(row, col) {
     for (const id in renderShape(hoverPoint, selectedShape)) {
       const [row, col] = splitId(id);
@@ -105,35 +119,37 @@ export default function App() {
   }
 
   function renderAccordionShapes(shapes) {
+    const renderedShapes = [];
     let rule = false;
-    return Object.keys(shapes).map((shape) => {
+
+    for (const shape in shapes) {
       const rows = shapes[shape].accordion.rows || shapes[shape].rows,
         cols = shapes[shape].accordion.cols || shapes[shape].cols,
         center = shapes[shape].accordion.center || shapes[shape].center;
 
-      const result = (
-        <>
-          {rule && <hr />}
-          <AccordionShape
-            key={shapes[shape].name}
-            rows={rows}
-            cols={cols}
-            center={center}
-            name={shapes[shape].name}
-            label={shapes[shape].label}
-            setExpanded={setDrawerOpen}
-            selectShape={selectShape}
-            dropShape={dropShape}
-            setHoverPoint={setHoverPoint}
-            dragging={dragging}
-            setDrag={setDrag}
-          />
-        </>
-      );
-
+      if (rule) renderedShapes.push(<hr key={`rule-${shapes[shape].name}`} />);
       rule = true;
-      return result;
-    });
+
+      renderedShapes.push(
+        <AccordionShape
+          key={shapes[shape].name}
+          rows={rows}
+          cols={cols}
+          center={center}
+          name={shapes[shape].name}
+          label={shapes[shape].label}
+          setExpanded={setDrawerOpen}
+          selectShape={selectShape}
+          dropShape={dropShape}
+          setHoverPoint={setHoverPoint}
+          dragging={dragging}
+          setDrag={setDrag}
+          rule={rule}
+        />
+      );
+    }
+
+    return renderedShapes;
   }
 
   return (
@@ -186,7 +202,7 @@ export default function App() {
             transition: "all 100ms ease",
             transitionDelay: !drawerOpen ? "250ms" : ""
           }}
-          game={game}
+          playing={playing}
           play={play}
           pause={pause}
           step={step}

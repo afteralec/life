@@ -17,7 +17,8 @@ export default function AccordionShape({
   dropShape,
   setHoverPoint,
   dragging,
-  setDrag
+  setDrag,
+  rule
 }) {
   if (rows > 3) rows = 3;
   if (cols > 5) cols = 5;
@@ -35,45 +36,45 @@ export default function AccordionShape({
   }
 
   return (
-    <AccordionDetails
-      style={{
-        margin: 0,
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center"
-      }}
-      onMouseOver={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-    >
-      <ShapeGrid
+      <AccordionDetails
         style={{
-          transform: hover ? "scale(0.8) translateY(2vh)" : "scale(0.8)"
-        }}
-        grid={grid}
-        shape={name}
-        setExpanded={setExpanded}
-        selectShape={selectShape}
-        dropShape={dropShape}
-        setHoverPoint={setHoverPoint}
-        dragging={dragging}
-        setDrag={setDrag}
-      />
-      <span
-        style={{
-          position: "absolute",
-          bottom: "11vh",
-          fontSize: "0.95rem",
           margin: 0,
-          padding: 0,
-          textAlign: "center",
-          opacity: hover ? 1 : 0,
-          transitionProperty: "opacity",
-          transitionDuration: "250ms"
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center"
         }}
+        onMouseOver={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
       >
-        {label}
-      </span>
-    </AccordionDetails>
+        <ShapeGrid
+          style={{
+            transform: hover ? "scale(0.8) translateY(2vh)" : "scale(0.8)"
+          }}
+          grid={grid}
+          shape={name}
+          setExpanded={setExpanded}
+          selectShape={selectShape}
+          dropShape={dropShape}
+          setHoverPoint={setHoverPoint}
+          dragging={dragging}
+          setDrag={setDrag}
+        />
+        <span
+          style={{
+            position: "absolute",
+            bottom: "11vh",
+            fontSize: "0.95rem",
+            margin: 0,
+            padding: 0,
+            textAlign: "center",
+            opacity: hover ? 1 : 0,
+            transitionProperty: "opacity",
+            transitionDuration: "250ms"
+          }}
+        >
+          {label}
+        </span>
+      </AccordionDetails>
   );
 }
