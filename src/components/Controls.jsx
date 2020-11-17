@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import Slider from "@material-ui/core/Slider";
 import PlayArrowRoundedIcon from "@material-ui/icons/PlayArrowRounded";
@@ -15,15 +15,35 @@ export default function ({
   back,
   setTimeStep
 }) {
-  const [sliderValue, setSliderValue] = useState(50);
+  const [sliderValue, setSliderValue] = useState(50),
+    [playOnSliderMouseUp, setPlayOnSliderMouseUp] = useState(false);
+
+  useEffect(() => {
+    if (playOnSliderMouseUp) {
+      play();
+      setPlayOnSliderMouseUp(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [play]);
 
   function sliderChange(event, value) {
     event.preventDefault();
     setSliderValue(value);
+    pause();
+
+    if (game) setPlayOnSliderMouseUp(true);
   }
 
   function updateTimeStep() {
     setTimeStep(1350 - sliderValue * 10);
+    // if (playOnSliderMouseUp) {
+    //   setTimeStep(1350 - sliderValue * 10, () => {
+    //     play();
+    //     setPlayOnSliderMouseUp(false);
+    //   });
+    // } else {
+
+    // }
   }
 
   return (
@@ -64,9 +84,10 @@ export default function ({
         }}
       >
         <Slider
-          disabled={!!game}
+          //disabled={!!game}
           value={sliderValue}
           onChange={sliderChange}
+          onMouseDown={() => pause()}
           onMouseUp={updateTimeStep}
           onMouseLeave={updateTimeStep}
           aria-labelledby="continuous-slider"
