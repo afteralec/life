@@ -3,7 +3,7 @@ import ShapeGrid from "./ShapeGrid";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 
 import generateGrid from "../services/generateGrid";
-import renderShape from "../services/renderShape";
+import { renderAccordionShape } from "../services/renderShape";
 import splitId from "../services/splitId";
 
 export default function AccordionShape({
@@ -19,11 +19,17 @@ export default function AccordionShape({
   dragging,
   setDrag
 }) {
+  if (rows > 3) rows = 3;
+  if (cols > 5) cols = 5;
+
   const [hover, setHover] = useState(false);
   const grid = generateGrid(rows, cols, name);
 
-  for (const id in renderShape(center, name, name)) {
+  for (const id in renderAccordionShape(center, name, name)) {
     const [row, col] = splitId(id);
+
+    if (!grid[row]) continue;
+    if (!grid[row][col]) continue;
 
     grid[row][col].active = true;
   }
@@ -56,7 +62,7 @@ export default function AccordionShape({
       <span
         style={{
           position: "absolute",
-          bottom: "10vh",
+          bottom: "11vh",
           fontSize: "0.95rem",
           margin: 0,
           padding: 0,

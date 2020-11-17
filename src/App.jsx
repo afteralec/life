@@ -107,14 +107,18 @@ export default function App() {
   function renderAccordionShapes(shapes) {
     let rule = false;
     return Object.keys(shapes).map((shape) => {
+      const rows = shapes[shape].accordion.rows || shapes[shape].rows,
+        cols = shapes[shape].accordion.cols || shapes[shape].cols,
+        center = shapes[shape].accordion.center || shapes[shape].center;
+
       const result = (
         <>
           {rule && <hr />}
           <AccordionShape
             key={shapes[shape].name}
-            rows={shapes[shape].rows}
-            cols={shapes[shape].cols}
-            center={shapes[shape].center}
+            rows={rows}
+            cols={cols}
+            center={center}
             name={shapes[shape].name}
             label={shapes[shape].label}
             setExpanded={setDrawerOpen}
