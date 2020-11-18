@@ -104,12 +104,10 @@ export default function App() {
           ...snackbar,
           open: true,
           key: new Date().getTime(),
+          anchorOrigin: { vertical: "bottom", horizontal: "center" },
           message: "When you've set an initial state, press Play",
           buttonText: "next",
-          buttonAction: () => {
-            setTourStep(5);
-            play();
-          },
+          buttonAction: () => setTourStep(5),
           closeAction: () => {
             setTourStep(0);
             clear();
@@ -117,39 +115,6 @@ export default function App() {
         }));
 
         break;
-      // case 5:
-      //   setSnackbar((snackbar) => ({
-      //     ...snackbar,
-      //     open: true,
-      //     key: new Date().getTime(),
-      //     message: "Once started, you can pause the Game whenever you like",
-      //     buttonText: "next",
-      //     buttonAction: () => {
-      //       setTourStep(6);
-      //       pause();
-      //     },
-      //     closeAction: () => {
-      //       setTourStep(0);
-      //       clear();
-      //     }
-      //   }));
-
-      //   break;
-      // case 6:
-      //   setSnackbar((snackbar) => ({
-      //     ...snackbar,
-      //     open: true,
-      //     key: new Date().getTime(),
-      //     message: "Use the slider to control how fast the Game is played",
-      //     buttonText: "next",
-      //     buttonAction: () => setTourStep(7),
-      //     closeAction: () => {
-      //       setTourStep(0);
-      //       clear();
-      //     }
-      //   }));
-
-      //   break;
       case 5:
         setSnackbar((snackbar) => ({
           ...snackbar,
@@ -158,7 +123,10 @@ export default function App() {
           anchorOrigin: { vertical: "bottom", horizontal: "left" },
           message: "Clear the grid with the Clear button",
           buttonText: "next",
-          buttonAction: () => setTourStep(6),
+          buttonAction: () => {
+            setTourStep(6);
+            setDrawerOpen(true);
+          },
           closeAction: () => {
             setTourStep(0);
             clear();
@@ -166,38 +134,6 @@ export default function App() {
         }));
 
         break;
-      // case 8:
-      //   setSnackbar((snackbar) => ({
-      //     ...snackbar,
-      //     open: true,
-      //     key: new Date().getTime(),
-      //     message: "Set a random initial state with the Random button",
-      //     buttonText: "next",
-      //     buttonAction: () => setTourStep(9),
-      //     closeAction: () => {
-      //       setTourStep(0);
-      //       clear();
-      //     }
-      //   }));
-
-      //   break;
-      // case 9:
-      //   setSnackbar((snackbar) => ({
-      //     ...snackbar,
-      //     anchorOrigin: { vertical: "top", horizontal: "center" },
-      //     open: true,
-      //     key: new Date().getTime(),
-      //     message:
-      //       "The shapes drawer contains prebuilt patterns with interesting effects",
-      //     buttonText: "next",
-      //     buttonAction: () => setTourStep(10),
-      //     closeAction: () => {
-      //       setTourStep(0);
-      //       clear();
-      //     }
-      //   }));
-
-      //   break;
       case 6:
         setSnackbar((snackbar) => ({
           ...snackbar,
@@ -209,7 +145,7 @@ export default function App() {
           buttonText: "next",
           buttonAction: () => {
             setTourStep(7);
-            clear();
+            setDrawerOpen(false);
           },
           closeAction: () => {
             setTourStep(0);
@@ -218,36 +154,16 @@ export default function App() {
         }));
 
         break;
-      // case 11:
-      //   setSnackbar((snackbar) => ({
-      //     ...snackbar,
-      //     open: true,
-      //     message: "Prebuilt shapes can be dragged onto the grid",
-      //     buttonText: "next",
-      //     buttonAction: () => {
-      //       setTourStep(12);
-      //       clear();
-      //     },
-      //     closeAction: () => {
-      //       setTourStep(0);
-      //       clear();
-      //     }
-      //   }));
-
-      //   break;
       case 7:
         setSnackbar((snackbar) => ({
           ...snackbar,
-          anchorOrigin: { vertical: "bottom", horizontal: "center" },
           open: true,
           key: new Date().getTime(),
           message: "Have fun!",
           buttonText: undefined,
           buttonAction: undefined,
-          closeAction: () => {
-            setTourStep(0);
-            clear();
-          }
+          autoHideDuration: 5000,
+          alert: "success"
         }));
 
         break;
@@ -269,14 +185,6 @@ export default function App() {
     return () => clearInterval(tourCellInterval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tourStep]);
-
-  // function handleContextMenu(event) {
-  //   event.preventDefault();
-  //   setMouse({
-  //     x: event.clientX - 2,
-  //     y: event.clientY - 4
-  //   });
-  // }
 
   function handleCloseMenu() {
     setMouse({ x: null, y: null });
@@ -407,10 +315,20 @@ export default function App() {
           cursor: dragging ? "grabbing" : "auto"
         }}
         //onContextMenu={handleContextMenu}
-        onMouseDown={() => setMouseDown(true)}
+        onMouseDown={() => {
+          setMouseDown(true);
+          if (tourStep === 7) {
+            setTourStep(0);
+            setSnackbar({});
+          }
+        }}
         onMouseUp={() => {
           setDrag(false);
           setMouseDown(false);
+          if (tourStep === 7) {
+            setTourStep(0);
+            setSnackbar({});
+          }
         }}
       >
         <ShapesAccordion
@@ -453,12 +371,8 @@ export default function App() {
           timeStep={timeStep}
           setTimeStep={setTimeStep}
           tour={{
-            //backAndStep: tourStep === 3,
             play: tourStep === 4,
-            //pause: tourStep === 5,
-            //slider: tourStep === 6,
             clear: tourStep === 5
-            //random: tourStep === 8
           }}
           setTourStep={setTourStep}
           setGrid={setGrid}
@@ -480,14 +394,16 @@ export default function App() {
       />
 
       <AppSnackbar
-        key={snackbar.key}
+        key={snackbar.message}
         anchorOrigin={snackbar.anchorOrigin}
+        autoHideDuration={snackbar.autoHideDuration}
         open={snackbar.open}
         close={closeSnackbar}
         message={snackbar.message}
         buttonText={snackbar.buttonText}
         buttonAction={snackbar.buttonAction}
         closeAction={snackbar.closeAction}
+        alert={snackbar.alert}
       />
     </>
   );

@@ -48,35 +48,6 @@ export default function ({
     play();
   }
 
-  function handlePause() {
-    if (tour.pause) {
-      setTourStep((tourStep) => tourStep + 1);
-      clear();
-      return;
-    }
-
-    pause();
-  }
-
-  function handleStep() {
-    if (tour.backAndStep) {
-      setTourStep((tourStep) => tourStep + 1);
-      clear();
-      return;
-    }
-
-    step();
-  }
-
-  function handleBack() {
-    if (tour.backAndStep) {
-      setTourStep((tourStep) => tourStep + 1);
-      return;
-    }
-
-    back();
-  }
-
   function sliderChange(event, value) {
     event.preventDefault();
     setSliderValue(value);
@@ -106,21 +77,14 @@ export default function ({
           width: "85%"
         }}
       >
-        <span
-          style={{
-            animation: tour.backAndStep ? "fadeInAndOut 4s linear" : "",
-            animationIterationCount: tour.backAndStep ? "infinite" : ""
-          }}
-        >
-          <Button disabled={!!playing} onClick={handleBack} color="primary">
-            Back
-          </Button>
-        </span>
+        <Button disabled={!!playing} onClick={back} color="primary">
+          Back
+        </Button>
 
         <span
           style={{
-            animation: tour.play || tour.pause ? "fadeInAndOut 4s linear" : "",
-            animationIterationCount: tour.play || tour.pause ? "infinite" : ""
+            animation: tour.play ? "fadeInAndOut 4s linear" : "",
+            animationIterationCount: tour.play ? "infinite" : ""
           }}
         >
           <ButtonGroup
@@ -130,7 +94,7 @@ export default function ({
           >
             <Button
               variant="contained"
-              disabled={!!playing || tour.pause}
+              disabled={!!playing}
               onClick={handlePlay}
               color="primary"
             >
@@ -139,8 +103,8 @@ export default function ({
             </Button>
             <Button
               variant="contained"
-              disabled={!playing && !tour.pause}
-              onClick={handlePause}
+              disabled={!playing}
+              onClick={pause}
               color="primary"
             >
               <PauseRoundedIcon />
@@ -155,7 +119,7 @@ export default function ({
             animationIterationCount: tour.backAndStep ? "infinite" : ""
           }}
         >
-          <Button disabled={!!playing} onClick={handleStep} color="primary">
+          <Button disabled={!!playing} onClick={step} color="primary">
             Forward
           </Button>
         </span>
@@ -182,24 +146,16 @@ export default function ({
               Clear
             </Button>
           </span>
-          <span
-            style={{
-              animation: tour.random ? "fadeInAndOut 4s linear" : "",
-              animationIterationCount: tour.random ? "infinite" : ""
+          <Button
+            onClick={() => {
+              const newGrid = generateGrid();
+              setGrid(seeds.random(newGrid));
             }}
+            color="primary"
           >
-            <Button
-              onClick={() => {
-                const newGrid = generateGrid();
-                setGrid(seeds.random(newGrid));
-                if (tour.random) setTourStep((tourStep) => tourStep + 1);
-              }}
-              color="primary"
-            >
-              <CasinoRoundedIcon />
-              Random
-            </Button>
-          </span>
+            <CasinoRoundedIcon />
+            Random
+          </Button>
         </div>
       </div>
 
