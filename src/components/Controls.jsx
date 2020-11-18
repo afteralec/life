@@ -165,20 +165,41 @@ export default function ({
             marginLeft: "13rem"
           }}
         >
-          <Button onClick={clear} color="primary">
-            <CloseRoundedIcon />
-            Clear
-          </Button>
-          <Button
-            onClick={() => {
-              const newGrid = generateGrid();
-              setGrid(seeds.random(newGrid));
+          <span
+            style={{
+              animation: tour.clear ? "fadeInAndOut 4s linear" : "",
+              animationIterationCount: tour.clear ? "infinite" : ""
             }}
-            color="primary"
           >
-            <CasinoRoundedIcon />
-            Random
-          </Button>
+            <Button
+              onClick={() => {
+                clear();
+                if (tour.clear) setTourStep((tourStep) => tourStep + 1);
+              }}
+              color="primary"
+            >
+              <CloseRoundedIcon />
+              Clear
+            </Button>
+          </span>
+          <span
+            style={{
+              animation: tour.random ? "fadeInAndOut 4s linear" : "",
+              animationIterationCount: tour.random ? "infinite" : ""
+            }}
+          >
+            <Button
+              onClick={() => {
+                const newGrid = generateGrid();
+                setGrid(seeds.random(newGrid));
+                if (tour.random) setTourStep((tourStep) => tourStep + 1);
+              }}
+              color="primary"
+            >
+              <CasinoRoundedIcon />
+              Random
+            </Button>
+          </span>
         </div>
       </div>
 

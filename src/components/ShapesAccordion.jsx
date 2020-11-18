@@ -16,8 +16,8 @@ export default function ({
   return (
     <Accordion
       style={{
-        animation: tour ? "fadeInAndOut 4s linear" : "",
-        animationIterationCount: tour ? "infinite" : "",
+        // animation: tour ? "fadeInAndOut 4s linear" : "",
+        // animationIterationCount: tour ? "infinite" : "",
         width: "175vh",
         marginBottom: "2vh",
         backgroundColor: "rgba(0, 0, 0, 0)"

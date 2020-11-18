@@ -70,7 +70,7 @@ export default function App() {
           message: "Click or drag over any cell to toggle it",
           buttonText: "next",
           buttonAction: () => {
-            setTourStep(3);
+            setTourStep(4);
             clear();
           },
           closeAction: () => {
@@ -117,17 +117,48 @@ export default function App() {
         }));
 
         break;
+      // case 5:
+      //   setSnackbar((snackbar) => ({
+      //     ...snackbar,
+      //     open: true,
+      //     key: new Date().getTime(),
+      //     message: "Once started, you can pause the Game whenever you like",
+      //     buttonText: "next",
+      //     buttonAction: () => {
+      //       setTourStep(6);
+      //       pause();
+      //     },
+      //     closeAction: () => {
+      //       setTourStep(0);
+      //       clear();
+      //     }
+      //   }));
+
+      //   break;
+      // case 6:
+      //   setSnackbar((snackbar) => ({
+      //     ...snackbar,
+      //     open: true,
+      //     key: new Date().getTime(),
+      //     message: "Use the slider to control how fast the Game is played",
+      //     buttonText: "next",
+      //     buttonAction: () => setTourStep(7),
+      //     closeAction: () => {
+      //       setTourStep(0);
+      //       clear();
+      //     }
+      //   }));
+
+      //   break;
       case 5:
         setSnackbar((snackbar) => ({
           ...snackbar,
           open: true,
           key: new Date().getTime(),
-          message: "Once started, you can pause the Game whenever you like",
+          anchorOrigin: { vertical: "bottom", horizontal: "left" },
+          message: "Clear the grid with the Clear button",
           buttonText: "next",
-          buttonAction: () => {
-            setTourStep(6);
-            pause();
-          },
+          buttonAction: () => setTourStep(6),
           closeAction: () => {
             setTourStep(0);
             clear();
@@ -135,78 +166,49 @@ export default function App() {
         }));
 
         break;
+      // case 8:
+      //   setSnackbar((snackbar) => ({
+      //     ...snackbar,
+      //     open: true,
+      //     key: new Date().getTime(),
+      //     message: "Set a random initial state with the Random button",
+      //     buttonText: "next",
+      //     buttonAction: () => setTourStep(9),
+      //     closeAction: () => {
+      //       setTourStep(0);
+      //       clear();
+      //     }
+      //   }));
+
+      //   break;
+      // case 9:
+      //   setSnackbar((snackbar) => ({
+      //     ...snackbar,
+      //     anchorOrigin: { vertical: "top", horizontal: "center" },
+      //     open: true,
+      //     key: new Date().getTime(),
+      //     message:
+      //       "The shapes drawer contains prebuilt patterns with interesting effects",
+      //     buttonText: "next",
+      //     buttonAction: () => setTourStep(10),
+      //     closeAction: () => {
+      //       setTourStep(0);
+      //       clear();
+      //     }
+      //   }));
+
+      //   break;
       case 6:
         setSnackbar((snackbar) => ({
           ...snackbar,
-          open: true,
-          key: new Date().getTime(),
-          message: "Use the slider to control how fast the Game is played",
-          buttonText: "next",
-          buttonAction: () => setTourStep(7),
-          closeAction: () => {
-            setTourStep(0);
-            clear();
-          }
-        }));
-
-        break;
-      case 7:
-        setSnackbar((snackbar) => ({
-          ...snackbar,
-          open: true,
-          key: new Date().getTime(),
-          anchorOrigin: { vertical: "bottom", horizontal: "left" },
-          message: "Clear the grid with the clear button",
-          buttonText: "next",
-          buttonAction: () => setTourStep(8),
-          closeAction: () => {
-            setTourStep(0);
-            clear();
-          }
-        }));
-
-        break;
-      case 8:
-        setSnackbar((snackbar) => ({
-          ...snackbar,
-          open: true,
-          key: new Date().getTime(),
-          message: "Set a random initial state with the random button",
-          buttonText: "next",
-          buttonAction: () => setTourStep(9),
-          closeAction: () => {
-            setTourStep(0);
-            clear();
-          }
-        }));
-
-        break;
-      case 9:
-        setSnackbar((snackbar) => ({
-          ...snackbar,
-          anchorOrigin: { vertical: "bottom", horizontal: "center" },
+          anchorOrigin: { vertical: "top", horizontal: "center" },
           open: true,
           key: new Date().getTime(),
           message:
-            "The shapes drawer contains prebuilt patterns with interesting effects",
-          buttonText: "next",
-          buttonAction: () => setTourStep(10),
-          closeAction: () => {
-            setTourStep(0);
-            clear();
-          }
-        }));
-
-        break;
-      case 10:
-        setSnackbar((snackbar) => ({
-          ...snackbar,
-          open: true,
-          key: new Date().getTime(),
-          message: "Prebuilt shapes can be dragged onto the grid",
+            "Prebuilt shapes can be dragged onto the grid for interesting effects",
           buttonText: "next",
           buttonAction: () => {
-            setTourStep(12);
+            setTourStep(7);
             clear();
           },
           closeAction: () => {
@@ -216,26 +218,27 @@ export default function App() {
         }));
 
         break;
-      case 11:
-        setSnackbar((snackbar) => ({
-          ...snackbar,
-          open: true,
-          message: "Prebuilt shapes can be dragged onto the grid",
-          buttonText: "next",
-          buttonAction: () => {
-            setTourStep(12);
-            clear();
-          },
-          closeAction: () => {
-            setTourStep(0);
-            clear();
-          }
-        }));
+      // case 11:
+      //   setSnackbar((snackbar) => ({
+      //     ...snackbar,
+      //     open: true,
+      //     message: "Prebuilt shapes can be dragged onto the grid",
+      //     buttonText: "next",
+      //     buttonAction: () => {
+      //       setTourStep(12);
+      //       clear();
+      //     },
+      //     closeAction: () => {
+      //       setTourStep(0);
+      //       clear();
+      //     }
+      //   }));
 
-        break;
-      case 12:
+      //   break;
+      case 7:
         setSnackbar((snackbar) => ({
           ...snackbar,
+          anchorOrigin: { vertical: "bottom", horizontal: "center" },
           open: true,
           key: new Date().getTime(),
           message: "Have fun!",
@@ -381,7 +384,7 @@ export default function App() {
           dragging={dragging}
           setDrag={setDrag}
           rule={rule}
-          tour={tourStep === 10}
+          tour={tourStep === 6}
           setTourStep={setTourStep}
         />
       );
@@ -413,9 +416,9 @@ export default function App() {
         <ShapesAccordion
           // Shapes drawer at the top of the UI
           renderedAccordionShapes={renderAccordionShapes(shapes)}
-          drawerOpen={drawerOpen || tourStep === 10}
+          drawerOpen={drawerOpen || tourStep === 6}
           setDrawerOpen={setDrawerOpen}
-          tour={tourStep === 9}
+          tour={tourStep === 6}
           setTourStep={setTourStep}
         />
 
@@ -437,9 +440,9 @@ export default function App() {
         <Controls
           // Controls for back, play, pause, and forward
           style={{
-            opacity: drawerOpen || tourStep === 10 ? 0 : 1,
+            opacity: drawerOpen || tourStep === 6 ? 0 : 1,
             transition: "all 100ms ease",
-            transitionDelay: !(drawerOpen || tourStep === 10) ? "250ms" : ""
+            transitionDelay: !(drawerOpen || tourStep === 6) ? "250ms" : ""
           }}
           playing={playing}
           play={play}
@@ -450,10 +453,12 @@ export default function App() {
           timeStep={timeStep}
           setTimeStep={setTimeStep}
           tour={{
-            backAndStep: tourStep === 3,
+            //backAndStep: tourStep === 3,
             play: tourStep === 4,
-            pause: tourStep === 5,
-            slider: tourStep === 6
+            //pause: tourStep === 5,
+            //slider: tourStep === 6,
+            clear: tourStep === 5
+            //random: tourStep === 8
           }}
           setTourStep={setTourStep}
           setGrid={setGrid}
