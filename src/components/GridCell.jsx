@@ -13,7 +13,8 @@ export default function GridCell({
   dragging,
   setDrag,
   selectShape,
-  dropShape
+  dropShape,
+  mouseDown
 }) {
   function cellStyles() {
     if (hovered) {
@@ -61,13 +62,15 @@ export default function GridCell({
         setHoverPoint({});
       }}
       onMouseEnter={() => {
+        if (mouseDown && !dragging) toggleActive(id);
+
         if (!dragging) return;
 
         if (row === hoverPoint.row && col === hoverPoint.col) return;
         setHoverPoint({ row, col });
       }}
       onDrop={(event) => event.preventDefault()}
-      onClick={() => toggleActive(id)}
+      onMouseDown={() => toggleActive(id)}
       style={{
         height: "3.5vh",
         width: "3.5vh",

@@ -54,7 +54,7 @@ const DialogActions = withStyles((theme) => ({
   }
 }))(MuiDialogActions);
 
-export default function CustomizedDialogs({ open, setOpen }) {
+export default function CustomizedDialogs({ open, setOpen, setTourStep }) {
   return (
     <div>
       <Dialog
@@ -89,10 +89,13 @@ export default function CustomizedDialogs({ open, setOpen }) {
         <DialogActions>
           <Button
             // autoFocus
-            onClick={() => setOpen(false)}
+            onClick={() => {
+              setOpen(false);
+              setTourStep(1);
+            }}
             color="primary"
           >
-            View the Demo
+            Take a Tour
           </Button>
         </DialogActions>
       </Dialog>

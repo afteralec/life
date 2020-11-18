@@ -1,7 +1,7 @@
 import React from "react";
 
 // App javaScript service file imports
-import generateGrid from "../services/generateGrid";
+//import generateGrid from "../services/generateGrid";
 import seeds from "../services/seeds";
 
 // Material UI Component imports
@@ -10,17 +10,10 @@ import MenuItem from "@material-ui/core/MenuItem";
 
 export default function ContextMenu({
   mouse,
-  pause,
+  clear,
   handleCloseMenu,
   setGrid
 }) {
-  function clear() {
-    // TODO: add logic to the grid to pause if the state is stable; can remove pause() then
-    // TODO: add a dialog to acknowledge that the state is now stable
-    pause();
-    setGrid(generateGrid());
-  }
-
   function seed(key) {
     setGrid((grid) => seeds[key](grid));
   }

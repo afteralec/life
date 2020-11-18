@@ -6,11 +6,13 @@ export default function ShapeGrid({
   shape,
   setExpanded,
   selectShape,
-  dropShape,
-  setHoverPoint,
+  //dropShape,
+  //setHoverPoint,
   style = {},
   dragging,
-  setDrag
+  setDrag,
+  tour,
+  setTourStep
 }) {
   return (
     <div
@@ -27,23 +29,24 @@ export default function ShapeGrid({
         setDrag(true);
         setExpanded(false);
         selectShape(shape);
+        if (tour) setTourStep((tourStep) => tourStep + 1);
       }}
       onMouseUp={() => {
         setDrag(false);
         setExpanded(true);
         selectShape("");
       }}
-      onDragStart={() => {
-        setDrag(true);
-        setExpanded(false);
-        selectShape(shape);
-      }}
-      onDragEnd={() => {
-        setDrag(false);
-        selectShape("");
-        dropShape();
-        setHoverPoint({});
-      }}
+      //onDragStart={() => {
+      //setDrag(true);
+      //setExpanded(false);
+      //selectShape(shape);
+      //}}
+      //onDragEnd={() => {
+      //setDrag(false);
+      //selectShape("");
+      //dropShape();
+      //setHoverPoint({});
+      //}}
     >
       {grid.map((row, index) => (
         <div key={index} style={{ display: "flex" }}>

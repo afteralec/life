@@ -9,11 +9,15 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 export default function ({
   renderedAccordionShapes,
   drawerOpen,
-  setDrawerOpen
+  setDrawerOpen,
+  tour,
+  setTourStep
 }) {
   return (
     <Accordion
       style={{
+        animation: tour ? "fadeInAndOut 4s linear" : "",
+        animationIterationCount: tour ? "infinite" : "",
         width: "175vh",
         marginBottom: "2vh",
         backgroundColor: "rgba(0, 0, 0, 0)"
@@ -21,6 +25,7 @@ export default function ({
       expanded={drawerOpen}
       onClick={() => {
         setDrawerOpen((drawerOpen) => !drawerOpen);
+        if (tour) setTourStep((tourStep) => tourStep + 1);
       }}
     >
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>

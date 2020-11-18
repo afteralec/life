@@ -7,16 +7,19 @@ export default function Grid({
   hoverPoint,
   setHoverPoint,
   hoverShape,
-  mouseDown,
   dragging,
   setDrag,
   selectShape,
-  dropShape
+  dropShape,
+  tour,
+  mouseDown
 }) {
   return (
     <div
       style={{
         display: "flex",
+        animation: tour ? "fadeInAndOut 4s linear" : "",
+        animationIterationCount: tour ? "infinite" : "",
         flexDirection: "column",
         border: "0.5px solid #333"
       }}
@@ -31,11 +34,11 @@ export default function Grid({
               hoverPoint={hoverPoint}
               setHoverPoint={setHoverPoint}
               hovered={!!hoverShape[cell.id]}
-              mouseDown={mouseDown}
               dragging={dragging}
               setDrag={setDrag}
               selectShape={selectShape}
               dropShape={dropShape}
+              mouseDown={mouseDown}
             />
           ))}
         </div>

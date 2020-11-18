@@ -10,12 +10,14 @@ import ShapesAccordion from "./components/ShapesAccordion";
 import AccordionShape from "./components/AccordionShape";
 import ContextMenu from "./components/ContextMenu";
 import WelcomeDialog from "./components/WelcomeDialog";
+import AppSnackbar from "./components/AppSnackbar";
 
 // App javaScript service file imports
 import generateGrid from "./services/generateGrid";
 import splitId from "./services/splitId";
 import shapes from "./services/shapes";
 import renderShape from "./services/renderShape";
+import seeds from "./services/seeds";
 
 export default function App() {
   const [playing, setPlaying] = useState(false),
@@ -23,16 +25,17 @@ export default function App() {
     [timeStep, setTimeStep] = useState(1000),
     [selectedShape, selectShape] = useState(""),
     [hoverPoint, setHoverPoint] = useState({}),
-    [mouseDown, setMouseDown] = useState(false),
     [mouse, setMouse] = useState({ x: null, y: null }),
+    [mouseDown, setMouseDown] = useState(false),
     [dragging, setDrag] = useState(false),
     [drawerOpen, setDrawerOpen] = useState(false),
-    [welcomeOpen, setWelcomeOpen] = useState(true);
+    [welcomeOpen, setWelcomeOpen] = useState(true),
+    [snackbar, setSnackbar] = useState({}),
+    [tourStep, setTourStep] = useState(0);
 
   // Play the game
   useEffect(() => {
     let gameInterval;
-
     if (playing) {
       gameInterval = setInterval(step, timeStep);
     }
@@ -41,16 +44,243 @@ export default function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playing]);
 
-  function handleContextMenu(event) {
-    event.preventDefault();
-    setMouse({
-      x: event.clientX - 2,
-      y: event.clientY - 4
-    });
-  }
+  // Effect to moderate the tour
+  useEffect(() => {
+    switch (tourStep) {
+      case 1:
+        setSnackbar((snackbar) => ({
+          ...snackbar,
+          key: new Date().getTime(),
+          open: true,
+          message: "The Game is played on this grid",
+          buttonText: "next",
+          buttonAction: () => setTourStep(2),
+          closeAction: () => {
+            setTourStep(0);
+            clear();
+          }
+        }));
+
+        break;
+      case 2:
+        setSnackbar((snackbar) => ({
+          ...snackbar,
+          key: new Date().getTime(),
+          open: true,
+          message: "Click or drag over any cell to toggle it",
+          buttonText: "next",
+          buttonAction: () => {
+            setTourStep(3);
+            clear();
+          },
+          closeAction: () => {
+            setTourStep(0);
+            clear();
+          }
+        }));
+
+        break;
+      case 3:
+        setSnackbar((snackbar) => ({
+          ...snackbar,
+          open: true,
+          key: new Date().getTime(),
+          anchorOrigin: { vertical: "bottom", horizontal: "center" },
+          message: "Push the Game forward and back one step in time",
+          buttonText: "next",
+          buttonAction: () => {
+            setTourStep(4);
+            clear();
+          },
+          closeAction: () => {
+            setTourStep(0);
+            clear();
+          }
+        }));
+
+        break;
+      case 4:
+        setSnackbar((snackbar) => ({
+          ...snackbar,
+          open: true,
+          key: new Date().getTime(),
+          message: "When you've set an initial state, press Play",
+          buttonText: "next",
+          buttonAction: () => {
+            setTourStep(5);
+            play();
+          },
+          closeAction: () => {
+            setTourStep(0);
+            clear();
+          }
+        }));
+
+        break;
+      case 5:
+        setSnackbar((snackbar) => ({
+          ...snackbar,
+          open: true,
+          key: new Date().getTime(),
+          message: "Once started, you can pause the Game whenever you like",
+          buttonText: "next",
+          buttonAction: () => {
+            setTourStep(6);
+            pause();
+          },
+          closeAction: () => {
+            setTourStep(0);
+            clear();
+          }
+        }));
+
+        break;
+      case 6:
+        setSnackbar((snackbar) => ({
+          ...snackbar,
+          open: true,
+          key: new Date().getTime(),
+          message: "Use the slider to control how fast the Game is played",
+          buttonText: "next",
+          buttonAction: () => setTourStep(7),
+          closeAction: () => {
+            setTourStep(0);
+            clear();
+          }
+        }));
+
+        break;
+      case 7:
+        setSnackbar((snackbar) => ({
+          ...snackbar,
+          open: true,
+          key: new Date().getTime(),
+          anchorOrigin: { vertical: "bottom", horizontal: "left" },
+          message: "Clear the grid with the clear button",
+          buttonText: "next",
+          buttonAction: () => setTourStep(8),
+          closeAction: () => {
+            setTourStep(0);
+            clear();
+          }
+        }));
+
+        break;
+      case 8:
+        setSnackbar((snackbar) => ({
+          ...snackbar,
+          open: true,
+          key: new Date().getTime(),
+          message: "Set a random initial state with the random button",
+          buttonText: "next",
+          buttonAction: () => setTourStep(9),
+          closeAction: () => {
+            setTourStep(0);
+            clear();
+          }
+        }));
+
+        break;
+      case 9:
+        setSnackbar((snackbar) => ({
+          ...snackbar,
+          anchorOrigin: { vertical: "bottom", horizontal: "center" },
+          open: true,
+          key: new Date().getTime(),
+          message:
+            "The shapes drawer contains prebuilt patterns with interesting effects",
+          buttonText: "next",
+          buttonAction: () => setTourStep(10),
+          closeAction: () => {
+            setTourStep(0);
+            clear();
+          }
+        }));
+
+        break;
+      case 10:
+        setSnackbar((snackbar) => ({
+          ...snackbar,
+          open: true,
+          key: new Date().getTime(),
+          message: "Prebuilt shapes can be dragged onto the grid",
+          buttonText: "next",
+          buttonAction: () => {
+            setTourStep(12);
+            clear();
+          },
+          closeAction: () => {
+            setTourStep(0);
+            clear();
+          }
+        }));
+
+        break;
+      case 11:
+        setSnackbar((snackbar) => ({
+          ...snackbar,
+          open: true,
+          message: "Prebuilt shapes can be dragged onto the grid",
+          buttonText: "next",
+          buttonAction: () => {
+            setTourStep(12);
+            clear();
+          },
+          closeAction: () => {
+            setTourStep(0);
+            clear();
+          }
+        }));
+
+        break;
+      case 12:
+        setSnackbar((snackbar) => ({
+          ...snackbar,
+          open: true,
+          key: new Date().getTime(),
+          message: "Have fun!",
+          buttonText: undefined,
+          buttonAction: undefined,
+          closeAction: () => {
+            setTourStep(0);
+            clear();
+          }
+        }));
+
+        break;
+      default:
+        break;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tourStep]);
+
+  // Effect to simulate cells activating and deactivating
+  useEffect(() => {
+    let tourCellInterval;
+    if (tourStep === 2) {
+      tourCellInterval = setInterval(() => {
+        const newGrid = [...grid];
+        setGrid(seeds.tourExample(newGrid));
+      }, 1000);
+    }
+    return () => clearInterval(tourCellInterval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tourStep]);
+
+  // function handleContextMenu(event) {
+  //   event.preventDefault();
+  //   setMouse({
+  //     x: event.clientX - 2,
+  //     y: event.clientY - 4
+  //   });
+  // }
 
   function handleCloseMenu() {
     setMouse({ x: null, y: null });
+  }
+
+  function closeSnackbar() {
+    setSnackbar((snackbar) => ({ ...snackbar, open: false }));
   }
 
   function play() {
@@ -59,6 +289,11 @@ export default function App() {
 
   function pause() {
     setPlaying(false);
+  }
+
+  function clear() {
+    pause();
+    setGrid(generateGrid());
   }
 
   function step() {
@@ -103,6 +338,7 @@ export default function App() {
     cell.wasActive = cell.active;
     cell.active = !cell.active;
 
+    if (tourStep === 2) setTourStep((tourStep) => tourStep + 1);
     setGrid(newGrid);
   }
 
@@ -145,6 +381,8 @@ export default function App() {
           dragging={dragging}
           setDrag={setDrag}
           rule={rule}
+          tour={tourStep === 10}
+          setTourStep={setTourStep}
         />
       );
     }
@@ -165,10 +403,8 @@ export default function App() {
           alignItems: "center",
           cursor: dragging ? "grabbing" : "auto"
         }}
-        onContextMenu={handleContextMenu}
-        onMouseDown={() => {
-          setMouseDown(true);
-        }}
+        //onContextMenu={handleContextMenu}
+        onMouseDown={() => setMouseDown(true)}
         onMouseUp={() => {
           setDrag(false);
           setMouseDown(false);
@@ -177,8 +413,10 @@ export default function App() {
         <ShapesAccordion
           // Shapes drawer at the top of the UI
           renderedAccordionShapes={renderAccordionShapes(shapes)}
-          drawerOpen={drawerOpen}
+          drawerOpen={drawerOpen || tourStep === 10}
           setDrawerOpen={setDrawerOpen}
+          tour={tourStep === 9}
+          setTourStep={setTourStep}
         />
 
         <Grid
@@ -188,32 +426,42 @@ export default function App() {
           hoverPoint={hoverPoint}
           setHoverPoint={setHoverPoint}
           hoverShape={renderShape(hoverPoint, selectedShape)}
-          mouseDown={mouseDown}
           dragging={dragging}
           setDrag={setDrag}
           selectShape={selectShape}
           dropShape={dropShape}
+          tour={tourStep === 1}
+          mouseDown={mouseDown}
         />
 
         <Controls
           // Controls for back, play, pause, and forward
           style={{
-            opacity: drawerOpen ? 0 : 1,
+            opacity: drawerOpen || tourStep === 10 ? 0 : 1,
             transition: "all 100ms ease",
-            transitionDelay: !drawerOpen ? "250ms" : ""
+            transitionDelay: !(drawerOpen || tourStep === 10) ? "250ms" : ""
           }}
           playing={playing}
           play={play}
           pause={pause}
+          clear={clear}
           step={step}
           back={back}
           timeStep={timeStep}
           setTimeStep={setTimeStep}
+          tour={{
+            backAndStep: tourStep === 3,
+            play: tourStep === 4,
+            pause: tourStep === 5,
+            slider: tourStep === 6
+          }}
+          setTourStep={setTourStep}
+          setGrid={setGrid}
         />
 
         <ContextMenu
           mouse={mouse}
-          pause={pause}
+          clear={clear}
           handleCloseMenu={handleCloseMenu}
           setGrid={setGrid}
         />
@@ -223,6 +471,18 @@ export default function App() {
         // Welcome dialog with app summary
         open={welcomeOpen}
         setOpen={setWelcomeOpen}
+        setTourStep={setTourStep}
+      />
+
+      <AppSnackbar
+        key={snackbar.key}
+        anchorOrigin={snackbar.anchorOrigin}
+        open={snackbar.open}
+        close={closeSnackbar}
+        message={snackbar.message}
+        buttonText={snackbar.buttonText}
+        buttonAction={snackbar.buttonAction}
+        closeAction={snackbar.closeAction}
       />
     </>
   );
