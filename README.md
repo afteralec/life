@@ -1,68 +1,43 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Conway's Game of Life - a React App Visualizer
 
-## Available Scripts
+In a hurry? Visit the app directly at <https://thegame.wtf/>
 
-In the project directory, you can run:
+The Game of Life is an algorithm meant to imitate cellular reproduction devised by the British mathematician John Conway in 1970.
 
-### `yarn start`
+It is a zero-player game, meaning that its evolution is determined by its initial state, requiring no further input. You play the Game of Life by creating an initial state of the field and watching what happens.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+You'll find pre-determined shapes in the drawer at the top; drag and drop these onto the grid to start. The controls on the left guide the game, and the slider on the right controls the speed.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## The Game
 
-### `yarn test`
+[Click here to visit the app!](https://thegame.wtf/)
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Select **_Take a Tour_** for the in-app tour.
 
-### `yarn build`
+## The Game is played on the central grid
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Most of the action takes place here: the main grid of 1,000 cells.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+## Click each cell to toggle it from inactive to active and back
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+You can also hold down the mouse and "paint" over multiple cells to set them all at once!
 
-### `yarn eject`
+## Use the `Play` and `Pause` buttons to play and pause the Game
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+After setting any initial state you like, these buttons control the Game itself. You can change the state of the game at any point while paused.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Reset the grid with the `Clear` button
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+This will empty the grid and reset its history, ready for a new initial state
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## The `Forward` and `Back` buttons push the game one step in time forward and back, respectively
 
-## Learn More
+## Pre-determined shapes can be found in the `Shapes` drawer at the top of the interface
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Each shape on its own creates interesting patterns (some going on forever) but can be combined - drag and drop them onto the grid to set them as part of an initial state.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Try the Random button for a completely random initial state!
 
-### Code Splitting
+## Control the speed of each step with the `Speed` slider in the bottom right hand corner
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+The slider can be changed at any time, even while the Game is being played
