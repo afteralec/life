@@ -169,11 +169,13 @@ export default function App() {
     const renderedShapes = [];
     let rule = false;
 
+    // Iterate each key in the shapes object
     for (const shape in shapes) {
       const rows = shapes[shape].accordion.rows || shapes[shape].rows,
         cols = shapes[shape].accordion.cols || shapes[shape].cols,
         center = shapes[shape].accordion.center || shapes[shape].center;
 
+      // Render a <hr> element before every shape after the first
       if (rule) renderedShapes.push(<hr key={`rule-${shapes[shape].name}`} />);
       rule = true;
 
@@ -198,6 +200,7 @@ export default function App() {
       );
     }
 
+    // Return the final array of rule-separated components
     return renderedShapes;
   }
 
