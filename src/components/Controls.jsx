@@ -10,11 +10,17 @@ import PauseRoundedIcon from "@material-ui/icons/PauseRounded";
 import CloseRoundedIcon from "@material-ui/icons/CloseRounded";
 import CasinoRoundedIcon from "@material-ui/icons/Casino";
 
-// App javaScript service file imports
-import generateGrid from "../services/generateGrid";
-import seeds from "../services/seeds";
+// App data imports
+import seeds from "../data/seeds";
 
-export default function ({
+// App helper imports
+import renderSpeed from "../helpers/renderSpeed";
+
+// App script imports
+import generateGrid from "../scripts/generateGrid";
+
+// Component for all the controls for the game
+export default function Controls({
   style,
   playing,
   pause,
@@ -30,15 +36,19 @@ export default function ({
   const [sliderValue, setSliderValue] = useState(50),
     [playOnSliderMouseUp, setPlayOnSliderMouseUp] = useState(false);
 
+  // Effect to manage resuming the game after changing the slider speed
   useEffect(() => {
     if (playOnSliderMouseUp) {
       play();
       setPlayOnSliderMouseUp(false);
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [play]);
 
+  // Function to manage clicking the Play button
   function handlePlay() {
+    // If the tour is on the play step, push the tour forward when Play is pressed
     if (tour.play) {
       setTourStep((tourStep) => tourStep + 1);
       clear();
@@ -48,11 +58,17 @@ export default function ({
     play();
   }
 
+  // Function called when the slider value changes
   function sliderChange(event, value) {
     event.preventDefault();
+
     setSliderValue(value);
+
+    // When the slider is changed, pause the game
     pause();
 
+    // If the game is being played and the slider changes,
+    //  set playOnSliderMouseUp to true
     if (playing) setPlayOnSliderMouseUp(true);
   }
 
@@ -63,12 +79,14 @@ export default function ({
 
   return (
     <div
+      // Top-level wrapper div for the entire control unit
       style={{
         width: "100%",
         ...style
       }}
     >
       <div
+        // Wrapper div for the majority of control buttons
         style={{
           display: "flex",
           position: "absolute",
@@ -77,22 +95,30 @@ export default function ({
           width: "85%"
         }}
       >
-        <Button disabled={!!playing} onClick={back} color="primary">
+        <Button
+          // Back button
+          disabled={!!playing}
+          onClick={back}
+          color="primary"
+        >
           Back
         </Button>
 
         <span
+          // Wrapper to fade the Play/Pause buttons in and out on the appropriate tour step
           style={{
             animation: tour.play ? "fadeInAndOut 4s linear" : "",
             animationIterationCount: tour.play ? "infinite" : ""
           }}
         >
           <ButtonGroup
+            // Button Group for Play and Pause buttons
             variant="contained"
             color="primary"
             aria-label="contained primary button group"
           >
             <Button
+              // Play button
               variant="contained"
               disabled={!!playing}
               onClick={handlePlay}
@@ -102,6 +128,7 @@ export default function ({
               Play
             </Button>
             <Button
+              // Pause button
               variant="contained"
               disabled={!playing}
               onClick={pause}
@@ -113,31 +140,34 @@ export default function ({
           </ButtonGroup>
         </span>
 
-        <span
-          style={{
-            animation: tour.backAndStep ? "fadeInAndOut 4s linear" : "",
-            animationIterationCount: tour.backAndStep ? "infinite" : ""
-          }}
+        <Button
+          // Forward button
+          disabled={!!playing}
+          onClick={step}
+          color="primary"
         >
-          <Button disabled={!!playing} onClick={step} color="primary">
-            Forward
-          </Button>
-        </span>
+          Forward
+        </Button>
 
         <div
+          // Wrapper div for Clear and Random buttons
           style={{
             marginLeft: "13rem"
           }}
         >
           <span
+            // Wrapper for the Clear button to highlight during the appropriate tour step
             style={{
               animation: tour.clear ? "fadeInAndOut 4s linear" : "",
               animationIterationCount: tour.clear ? "infinite" : ""
             }}
           >
             <Button
+              // Clear button
               onClick={() => {
                 clear();
+
+                // If the tour is on the Clear step, push the tour forward one step
                 if (tour.clear) setTourStep((tourStep) => tourStep + 1);
               }}
               color="primary"
@@ -147,6 +177,7 @@ export default function ({
             </Button>
           </span>
           <Button
+            // Random button
             onClick={() => {
               const newGrid = generateGrid();
               setGrid(seeds.random(newGrid));
@@ -160,9 +191,8 @@ export default function ({
       </div>
 
       <div
+        // Wrapper div for the speed slider
         style={{
-          animation: tour.slider ? "fadeInAndOut 4s linear" : "",
-          animationIterationCount: tour.slider ? "infinite" : "",
           position: "absolute",
           bottom: "5vh",
           right: "14vh",
@@ -178,6 +208,7 @@ export default function ({
           <strong>{renderSpeed(sliderValue)}</strong>
         </Typography>
         <Slider
+          // Speed control slider
           color="primary"
           value={sliderValue}
           onChange={sliderChange}
@@ -189,13 +220,4 @@ export default function ({
       </div>
     </div>
   );
-}
-
-function renderSpeed(sliderValue) {
-  const speedValue = (sliderValue / 50).toFixed(1);
-
-  if (speedValue === "0.0") return "slowest";
-  if (speedValue === "2.0") return "fastest";
-
-  return speedValue + "x";
 }

@@ -1,10 +1,17 @@
 import React, { useState } from "react";
-import ShapeGrid from "./ShapeGrid";
+
+// Material UI Component Imports
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 
-import generateGrid from "../services/generateGrid";
-import { renderAccordionShape } from "../services/renderShape";
-import splitId from "../services/splitId";
+// App Component Imports
+import ShapeGrid from "./ShapeGrid";
+
+// App helper function imports
+import splitId from "../helpers/splitId";
+
+// App script imports
+import generateGrid from "../scripts/generateGrid";
+import { renderAccordionShape } from "../scripts/renderShape";
 
 export default function AccordionShape({
   rows,

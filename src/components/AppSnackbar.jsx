@@ -7,6 +7,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 
+// Component to be used for any snackbar update to the user
 export default function AppSnackbar({
   key,
   anchorOrigin = { vertical: "top", horizontal: "center" },
@@ -19,10 +20,12 @@ export default function AppSnackbar({
   closeAction,
   alert
 }) {
+  // Component for using the experimental Material UI Alert API
   function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
 
+  // Function to handle closing the snackbar
   function handleClose(event, reason) {
     if (reason === "clickaway" || alert) return;
 
@@ -31,6 +34,7 @@ export default function AppSnackbar({
   }
 
   return alert ? (
+    // If alert it truthy, return an Alert wrapped in the Snackbar componment
     <Snackbar
       key={key}
       anchorOrigin={anchorOrigin}
@@ -43,6 +47,7 @@ export default function AppSnackbar({
       </Alert>
     </Snackbar>
   ) : (
+    // If alert is falsy, return a self-closing Snackbar component
     <Snackbar
       key={key}
       anchorOrigin={anchorOrigin}

@@ -1,6 +1,8 @@
-import makeId from "./makeId";
-import shapes from "./shapes";
+import makeId from "../helpers/makeId";
+import shapes from "../data/shapes";
 
+// Function to, given a center point on the grid, render the ids of the rest
+//  of the shape's points
 export default function renderShape({ row, col }, selectedShape, key = "main") {
   if (!row || !col) return false;
 
@@ -13,6 +15,8 @@ export default function renderShape({ row, col }, selectedShape, key = "main") {
   return shape;
 }
 
+// Function to, given a center point, draw a truncated shape for use in the
+//   shapes drawer at the top of the UI
 export function renderAccordionShape({ row, col }, selectedShape, key) {
   if (!row || !col) return false;
 

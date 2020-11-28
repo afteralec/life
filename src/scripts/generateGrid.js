@@ -1,5 +1,6 @@
 import Cell from "../models/Cell";
 
+// Function to create the matrix used to render the Game's grid
 export default function generateGrid(rows = 20, cols = 50, key = "main") {
   const grid = [];
 
@@ -23,6 +24,7 @@ export default function generateGrid(rows = 20, cols = 50, key = "main") {
   return grid;
 }
 
+// Function to assign the neighbor coordinates of each cell in a grid
 function heyNeighbor(row, col, lastRow, lastCol) {
   let nw = [row - 1, col - 1],
     n = [row - 1, col],

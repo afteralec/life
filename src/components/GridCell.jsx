@@ -1,5 +1,9 @@
 import React from "react";
 
+// App helper functin imports
+import cellStyles from "../helpers/cellStyles";
+
+// Component for each Cell Component of the main Grid
 export default function GridCell({
   id,
   row,
@@ -16,43 +20,6 @@ export default function GridCell({
   dropShape,
   mouseDown
 }) {
-  function cellStyles() {
-    if (hovered) {
-      return {
-        backgroundColor: "#333",
-        opacity: "0.5",
-        transform: "scale(1)"
-      };
-    }
-
-    if (active) {
-      return {
-        backgroundColor: "#333",
-        animationName: "activeAnimation",
-        animationDuration: "750ms",
-        animationTimingFunction: "ease-in-out",
-        animationDelay: 0,
-        animationDirection: "alternate",
-        animationIterationCount: 1
-      };
-    } else if (wasActive) {
-      return {
-        backgroundColor: "firebrick",
-        transform: "scale(0)",
-        animationName: "inactiveAnimation",
-        animationDuration: "500ms",
-        animationTimingFunction: "ease-in-out",
-        animationDelay: 0,
-        animationDirection: "alternate",
-        animationIterationCount: 1,
-        transitionProperty: "background-color transform",
-        transitionDuration: "500ms"
-      };
-    } else {
-      return {};
-    }
-  }
-
   return (
     <div
       onMouseUp={() => {
@@ -84,7 +51,7 @@ export default function GridCell({
           height: "3.25vh",
           width: "3.25vh",
           borderRadius: "100%",
-          ...cellStyles()
+          ...cellStyles(hovered, active, wasActive)
         }}
       />
     </div>

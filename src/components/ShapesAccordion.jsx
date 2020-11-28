@@ -6,7 +6,8 @@ import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
-export default function ({
+// Component to render the Accordion of prebuilt shapes at the top of the UI
+export default function ShapesAccordion({
   renderedAccordionShapes,
   drawerOpen,
   setDrawerOpen,
@@ -16,8 +17,6 @@ export default function ({
   return (
     <Accordion
       style={{
-        // animation: tour ? "fadeInAndOut 4s linear" : "",
-        // animationIterationCount: tour ? "infinite" : "",
         width: "175vh",
         marginBottom: "2vh",
         backgroundColor: "rgba(0, 0, 0, 0)"
@@ -25,13 +24,21 @@ export default function ({
       expanded={drawerOpen}
       onClick={() => {
         setDrawerOpen((drawerOpen) => !drawerOpen);
+
+        // If the tour is active on this component, push the tour forward on step on click
         if (tour) setTourStep((tourStep) => tourStep + 1);
       }}
     >
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <Typography variant="h6">Shapes</Typography>
       </AccordionSummary>
-      <div style={{ display: "flex" }}>{renderedAccordionShapes}</div>
+      <div
+        // Render the entire array of renderedAccordionShapes, passed down as
+        //   an array of Components
+        style={{ display: "flex" }}
+      >
+        {renderedAccordionShapes}
+      </div>
     </Accordion>
   );
 }
