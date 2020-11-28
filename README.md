@@ -16,6 +16,8 @@ Select **_Take a Tour_** for the in-app tour.
 
 ## The Game is played on the central grid
 
+![tour-1-gif](tour-1.gif)
+
 Most of the action takes place here: the main grid of 1,000 cells.
 
 ## Click each cell to toggle it from inactive to active and back
