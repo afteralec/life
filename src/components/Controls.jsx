@@ -2,10 +2,16 @@ import React, { useState, useEffect } from "react";
 
 // Material UI imports
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
+import Fab from "@material-ui/core/Fab";
+import MenuIcon from "@material-ui/icons/Menu";
 import PlayArrowRoundedIcon from "@material-ui/icons/PlayArrowRounded";
 import PauseRoundedIcon from "@material-ui/icons/PauseRounded";
 import CloseRoundedIcon from "@material-ui/icons/CloseRounded";
@@ -19,6 +25,26 @@ import renderSpeed from "../helpers/renderSpeed";
 
 // App script imports
 import generateGrid from "../scripts/generateGrid";
+
+const useStyles = makeStyles((_theme) => ({
+  appBar: {
+    top: "auto",
+    bottom: 0
+  },
+
+  grow: {
+    flexGrow: 1
+  },
+
+  fabButton: {
+    position: "absolute",
+    zIndex: 1,
+    top: -30,
+    left: 0,
+    right: 0,
+    margin: "0 auto"
+  }
+}));
 
 // Component for all the controls for the game
 export default function Controls({
@@ -36,6 +62,8 @@ export default function Controls({
 }) {
   const [sliderValue, setSliderValue] = useState(50),
     [playOnSliderMouseUp, setPlayOnSliderMouseUp] = useState(false);
+
+  const classes = useStyles();
 
   // Effect to manage resuming the game after changing the slider speed
   useEffect(() => {
@@ -81,7 +109,47 @@ export default function Controls({
   // Hide this set of controls on mobile
   const mobile = useMediaQuery("(max-width: 1023px)");
 
-  if (mobile) return <></>;
+  if (mobile)
+    return (
+      <>
+        <AppBar position="fixed" color="primary" className={classes.appBar}>
+          <Toolbar>
+            <IconButton edge="start" color="inherit" aria-label="open drawer">
+              <MenuIcon />
+            </IconButton>
+            <Fab
+              color="secondary"
+              aria-label="play and pause"
+              className={classes.fabButton}
+              onClick={() => {
+                playing ? pause() : play();
+              }}
+            >
+              {playing ? <PauseRoundedIcon /> : <PlayArrowRoundedIcon />}
+            </Fab>
+            <div className={classes.grow} />
+            <IconButton
+              onClick={() => {
+                clear();
+              }}
+              color="inherit"
+            >
+              <CloseRoundedIcon />
+            </IconButton>
+            <IconButton
+              onClick={() => {
+                const newGrid = generateGrid();
+                setGrid(seeds.random(newGrid));
+              }}
+              edge="end"
+              color="inherit"
+            >
+              <CasinoRoundedIcon />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+      </>
+    );
 
   return (
     <div
