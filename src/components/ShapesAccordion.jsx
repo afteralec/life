@@ -1,6 +1,7 @@
 import React from "react";
 
-// Material UI Components
+// Material UI Imports
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Typography from "@material-ui/core/Typography";
@@ -14,6 +15,10 @@ export default function ShapesAccordion({
   tour,
   setTourStep
 }) {
+  const mobile = useMediaQuery("(max-width: 1023px)");
+
+  if (mobile) return <></>;
+
   return (
     <Accordion
       style={{

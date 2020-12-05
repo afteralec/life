@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
-// Material UI Component imports
+// Material UI imports
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
 // App Component imports
@@ -35,6 +36,8 @@ export default function App() {
     [welcomeOpen, setWelcomeOpen] = useState(true),
     [snackbar, setSnackbar] = useState({}),
     [tourStep, setTourStep] = useState(0);
+
+  const mobile = useMediaQuery("(max-width: 1023px)");
 
   // Play the game
   useEffect(() => {
@@ -211,11 +214,13 @@ export default function App() {
       />
       <div
         style={{
-          marginTop: "3vh",
+          marginTop: mobile ? "0" : "3vh",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          cursor: dragging ? "grabbing" : "auto"
+          cursor: dragging ? "grabbing" : "auto",
+          overflow: mobile ? "hidden" : "",
+          position: mobile ? "fixed" : ""
         }}
         // Tracking the state of the mouse globally
         onMouseDown={() => {

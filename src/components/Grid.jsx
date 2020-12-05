@@ -1,5 +1,8 @@
 import React from "react";
 
+// Material UI imports
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+
 // App Component imports
 import GridCell from "./GridCell";
 
@@ -17,11 +20,14 @@ export default function Grid({
   tour,
   mouseDown
 }) {
+  const mobile = useMediaQuery("(max-width: 1023px)"),
+    portrait = useMediaQuery("(orientation: portrait)");
+
   return (
     <div
       style={{
         display: "flex",
-        flexDirection: "column",
+        flexDirection: mobile && portrait ? "row" : "column",
         border: "0.5px solid #333",
 
         // Animation for during the appropriate step of the tour
@@ -30,7 +36,13 @@ export default function Grid({
       }}
     >
       {grid.map((row, index) => (
-        <div key={index} style={{ display: "flex" }}>
+        <div
+          key={index}
+          style={{
+            display: "flex",
+            flexDirection: mobile && portrait ? "column" : "row"
+          }}
+        >
           {row.map((cell) => (
             <GridCell
               // Render a Cell component for each Cell object in the grid

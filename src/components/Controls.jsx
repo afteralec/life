@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
-// Material UI component imports
+// Material UI imports
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Typography from "@material-ui/core/Typography";
@@ -76,6 +77,11 @@ export default function Controls({
     setTimeStep(1350 - sliderValue * 10);
     if (tour.slider) setTourStep((tourStep) => tourStep + 1);
   }
+
+  // Hide this set of controls on mobile
+  const mobile = useMediaQuery("(max-width: 1023px)");
+
+  if (mobile) return <></>;
 
   return (
     <div
