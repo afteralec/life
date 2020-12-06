@@ -7,6 +7,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 // App Component imports
 import Grid from "./components/Grid";
 import Controls from "./components/Controls";
+import ShapesDrawer from "./components/ShapesDrawer";
 import ShapesAccordion from "./components/ShapesAccordion";
 import ShapesAccordionShape from "./components/ShapesAccordionShape";
 import WelcomeDialog from "./components/WelcomeDialog";
@@ -222,11 +223,31 @@ export default function App() {
           overflow: mobile ? "hidden" : "",
           position: mobile ? "fixed" : ""
         }}
+        onTouchStart={(event) => {
+          event.preventDefault();
+          setMouseDown(true);
+
+          // If we're on the final step of the tour, any mouse action resets it
+          if (tourStep === 7) {
+            setTourStep(0);
+            setSnackbar({});
+          }
+        }}
         // Tracking the state of the mouse globally
         onMouseDown={() => {
           setMouseDown(true);
 
           // If we're on the final step of the tour, any mouse action resets it
+          if (tourStep === 7) {
+            setTourStep(0);
+            setSnackbar({});
+          }
+        }}
+        onTouchEnd={() => {
+          setDrag(false);
+          setMouseDown(false);
+
+          // If the user is on the final step of the tour, any mouse action resets it
           if (tourStep === 7) {
             setTourStep(0);
             setSnackbar({});
@@ -244,10 +265,18 @@ export default function App() {
           }
         }}
       >
-        <ShapesAccordion
+        {/* <ShapesAccordion
           // Shapes drawer at the top of the UI
           renderedAccordionShapes={renderAccordionShapes(shapes)}
           drawerOpen={drawerOpen || tourStep === 6}
+          setDrawerOpen={setDrawerOpen}
+          tour={tourStep === 6}
+          setTourStep={setTourStep}
+        /> */}
+
+        <ShapesDrawer
+          renderedAccordionShapes={renderAccordionShapes(shapes)}
+          drawerOpen={drawerOpen}
           setDrawerOpen={setDrawerOpen}
           tour={tourStep === 6}
           setTourStep={setTourStep}
@@ -289,6 +318,7 @@ export default function App() {
           }}
           setTourStep={setTourStep}
           setGrid={setGrid}
+          setDrawerOpen={setDrawerOpen}
         />
       </div>
 

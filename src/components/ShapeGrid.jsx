@@ -41,8 +41,31 @@ export default function ShapeGrid({
         // If the tour is active the Shapes; push the tour forward one step on mouse down
         if (tour) setTourStep((tourStep) => tourStep + 1);
       }}
+      onTouchStart={() => {
+        // Set dragging to true
+        setDrag(true);
+
+        // Close the drawer
+        setExpanded(false);
+
+        // Set the selectedshape to this shape object
+        selectShape(shape);
+
+        // If the tour is active the Shapes; push the tour forward one step on mouse down
+        if (tour) setTourStep((tourStep) => tourStep + 1);
+      }}
       // MouseUp here to cancel the custom drag and drop emulation
       onMouseUp={() => {
+        // Set dragging to false
+        setDrag(false);
+
+        // Open the drawer if it isn't open
+        setExpanded(true);
+
+        // Set the selected shape back to default
+        selectShape("");
+      }}
+      onTouchEnd={() => {
         // Set dragging to false
         setDrag(false);
 

@@ -26,10 +26,11 @@ export default function GridCell({
   const mobile = useMediaQuery("(max-width: 1023px)");
 
   const cellSize = mobile ? "24px" : "3.5vh",
-    innerCellSize = mobile ? "23px" : "3.25px";
+    innerCellSize = mobile ? "23px" : "3.25vh";
 
   return (
     <div
+      id={id}
       onMouseUp={() => {
         setDrag(false);
         selectShape("");

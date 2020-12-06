@@ -6,6 +6,9 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 // App Component imports
 import GridCell from "./GridCell";
 
+// App helper imports
+import splitId from "../helpers/splitId";
+
 // Component to render the main Grid
 export default function Grid({
   grid,
@@ -33,6 +36,24 @@ export default function Grid({
         // Animation for during the appropriate step of the tour
         animation: tour ? "fadeInAndOut 4s linear" : "",
         animationIterationCount: tour ? "infinite" : ""
+      }}
+      onTouchMove={(event) => {
+        event.preventDefault();
+
+        const touch = event.touches[0];
+
+        const id = document.elementFromPoint(touch.clientX, touch.clientY).id;
+
+        if (!id) return;
+
+        if (mouseDown && !dragging) toggleActive(id);
+
+        if (!dragging) return;
+
+        const [row, col] = splitId(id);
+
+        if (row === hoverPoint.row && col === hoverPoint.col) return;
+        setHoverPoint({ row, col });
       }}
     >
       {grid.map((row, index) => (

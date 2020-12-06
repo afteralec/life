@@ -58,7 +58,8 @@ export default function Controls({
   setTimeStep,
   tour,
   setTourStep,
-  setGrid
+  setGrid,
+  setDrawerOpen
 }) {
   const [sliderValue, setSliderValue] = useState(50),
     [playOnSliderMouseUp, setPlayOnSliderMouseUp] = useState(false);
@@ -106,50 +107,93 @@ export default function Controls({
     if (tour.slider) setTourStep((tourStep) => tourStep + 1);
   }
 
-  // Hide this set of controls on mobile
-  const mobile = useMediaQuery("(max-width: 1023px)");
+  // Adjust the control bar to mobile
+  const hideSpeedTypography = useMediaQuery("(max-width: 799px)"),
+    hideSpeedBar = useMediaQuery("(max-width: 450px)");
 
-  if (mobile)
-    return (
-      <>
-        <AppBar position="fixed" color="primary" className={classes.appBar}>
-          <Toolbar>
-            <IconButton edge="start" color="inherit" aria-label="open drawer">
-              <MenuIcon />
-            </IconButton>
-            <Fab
+  return (
+    <>
+      <AppBar position="fixed" color="primary" className={classes.appBar}>
+        <Toolbar>
+          <IconButton
+            onClick={() => {
+              setDrawerOpen(true);
+            }}
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+          >
+            <MenuIcon />
+          </IconButton>
+          <Fab
+            color="secondary"
+            aria-label="play and pause"
+            className={classes.fabButton}
+            onClick={() => {
+              playing ? pause() : play();
+            }}
+          >
+            {playing ? <PauseRoundedIcon /> : <PlayArrowRoundedIcon />}
+          </Fab>
+          <div className={classes.grow} />
+          {!hideSpeedTypography && (
+            <>
+              <Typography
+                style={{
+                  paddingLeft: "1rem",
+                  paddingRight: "0.5rem",
+                  display: "inline"
+                }}
+              >
+                Speed:{" "}
+              </Typography>
+              <Typography
+                style={{
+                  paddingLeft: "0.5rem",
+                  paddingRight: "1rem",
+                  display: "inline"
+                }}
+              >
+                <strong>{renderSpeed(sliderValue)}</strong>
+              </Typography>
+            </>
+          )}
+
+          {!hideSpeedBar && (
+            <Slider
+              // Speed control slider
+              style={{ width: "25%" }}
               color="secondary"
-              aria-label="play and pause"
-              className={classes.fabButton}
-              onClick={() => {
-                playing ? pause() : play();
-              }}
-            >
-              {playing ? <PauseRoundedIcon /> : <PlayArrowRoundedIcon />}
-            </Fab>
-            <div className={classes.grow} />
-            <IconButton
-              onClick={() => {
-                clear();
-              }}
-              color="inherit"
-            >
-              <CloseRoundedIcon />
-            </IconButton>
-            <IconButton
-              onClick={() => {
-                const newGrid = generateGrid();
-                setGrid(seeds.random(newGrid));
-              }}
-              edge="end"
-              color="inherit"
-            >
-              <CasinoRoundedIcon />
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-      </>
-    );
+              value={sliderValue}
+              onChange={sliderChange}
+              onMouseDown={() => pause()}
+              onMouseUp={updateTimeStep}
+              onMouseLeave={updateTimeStep}
+              aria-labelledby="continuous-slider"
+            />
+          )}
+          <IconButton
+            onClick={() => {
+              clear();
+            }}
+            color="inherit"
+          >
+            <CloseRoundedIcon />
+          </IconButton>
+          <IconButton
+            onClick={() => {
+              const newGrid = generateGrid();
+              setGrid(seeds.random(newGrid));
+            }}
+            edge="end"
+            color="inherit"
+          >
+            <CasinoRoundedIcon />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+    </>
+  );
 
   return (
     <div

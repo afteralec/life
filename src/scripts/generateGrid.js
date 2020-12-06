@@ -1,7 +1,7 @@
 import Cell from "../models/Cell";
 
 // Function to create the matrix used to render the Game's grid
-export default function generateGrid(rows = 20, cols = 50, key = "main") {
+export default function generateGrid(rows = 25, cols = 50, key = "main") {
   const grid = [];
 
   for (let i = 0; i < rows; i++) {
