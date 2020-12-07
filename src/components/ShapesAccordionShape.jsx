@@ -60,7 +60,7 @@ export default function AccordionShape({
     >
       <ShapeGrid
         style={{
-          transform: hover ? "scale(0.8) translateY(2vh)" : "scale(0.8)"
+          transform: hover ? "scale(0.8) translateY(3vh)" : "scale(0.8)"
         }}
         grid={grid}
         shape={name}
@@ -75,7 +75,7 @@ export default function AccordionShape({
       />
       <span
         style={{
-          position: "absolute",
+          position: "relative",
           bottom: "11vh",
           fontSize: "0.95rem",
           margin: 0,
