@@ -6,8 +6,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
-import Button from "@material-ui/core/Button";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
+// import Button from "@material-ui/core/Button";
+// import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
 import Fab from "@material-ui/core/Fab";
@@ -130,7 +130,7 @@ export default function Controls({
             aria-label="play and pause"
             className={classes.fabButton}
             onClick={() => {
-              playing ? pause() : play();
+              playing ? pause() : handlePlay();
             }}
           >
             {playing ? <PauseRoundedIcon /> : <PlayArrowRoundedIcon />}
@@ -195,147 +195,147 @@ export default function Controls({
     </>
   );
 
-  return (
-    <div
-      // Top-level wrapper div for the entire control unit
-      style={{
-        width: "100%",
-        ...style
-      }}
-    >
-      <div
-        // Wrapper div for the majority of control buttons
-        style={{
-          display: "flex",
-          position: "absolute",
-          bottom: "7vh",
-          left: "14vh",
-          width: "85%"
-        }}
-      >
-        <Button
-          // Back button
-          disabled={!!playing}
-          onClick={back}
-          color="primary"
-        >
-          Back
-        </Button>
+  // return (
+  //   <div
+  //     // Top-level wrapper div for the entire control unit
+  //     style={{
+  //       width: "100%",
+  //       ...style
+  //     }}
+  //   >
+  //     <div
+  //       // Wrapper div for the majority of control buttons
+  //       style={{
+  //         display: "flex",
+  //         position: "absolute",
+  //         bottom: "7vh",
+  //         left: "14vh",
+  //         width: "85%"
+  //       }}
+  //     >
+  //       <Button
+  //         // Back button
+  //         disabled={!!playing}
+  //         onClick={back}
+  //         color="primary"
+  //       >
+  //         Back
+  //       </Button>
 
-        <span
-          // Wrapper to fade the Play/Pause buttons in and out on the appropriate tour step
-          style={{
-            animation: tour.play ? "fadeInAndOut 4s linear" : "",
-            animationIterationCount: tour.play ? "infinite" : ""
-          }}
-        >
-          <ButtonGroup
-            // Button Group for Play and Pause buttons
-            variant="contained"
-            color="primary"
-            aria-label="contained primary button group"
-          >
-            <Button
-              // Play button
-              variant="contained"
-              disabled={!!playing}
-              onClick={handlePlay}
-              color="primary"
-            >
-              <PlayArrowRoundedIcon />
-              Play
-            </Button>
-            <Button
-              // Pause button
-              variant="contained"
-              disabled={!playing}
-              onClick={pause}
-              color="primary"
-            >
-              <PauseRoundedIcon />
-              Pause
-            </Button>
-          </ButtonGroup>
-        </span>
+  //       <span
+  //         // Wrapper to fade the Play/Pause buttons in and out on the appropriate tour step
+  //         style={{
+  //           animation: tour.play ? "fadeInAndOut 4s linear" : "",
+  //           animationIterationCount: tour.play ? "infinite" : ""
+  //         }}
+  //       >
+  //         <ButtonGroup
+  //           // Button Group for Play and Pause buttons
+  //           variant="contained"
+  //           color="primary"
+  //           aria-label="contained primary button group"
+  //         >
+  //           <Button
+  //             // Play button
+  //             variant="contained"
+  //             disabled={!!playing}
+  //             onClick={handlePlay}
+  //             color="primary"
+  //           >
+  //             <PlayArrowRoundedIcon />
+  //             Play
+  //           </Button>
+  //           <Button
+  //             // Pause button
+  //             variant="contained"
+  //             disabled={!playing}
+  //             onClick={pause}
+  //             color="primary"
+  //           >
+  //             <PauseRoundedIcon />
+  //             Pause
+  //           </Button>
+  //         </ButtonGroup>
+  //       </span>
 
-        <Button
-          // Forward button
-          disabled={!!playing}
-          onClick={step}
-          color="primary"
-        >
-          Forward
-        </Button>
+  //       <Button
+  //         // Forward button
+  //         disabled={!!playing}
+  //         onClick={step}
+  //         color="primary"
+  //       >
+  //         Forward
+  //       </Button>
 
-        <div
-          // Wrapper div for Clear and Random buttons
-          style={{
-            marginLeft: "13rem"
-          }}
-        >
-          <span
-            // Wrapper for the Clear button to highlight during the appropriate tour step
-            style={{
-              animation: tour.clear ? "fadeInAndOut 4s linear" : "",
-              animationIterationCount: tour.clear ? "infinite" : ""
-            }}
-          >
-            <Button
-              // Clear button
-              onClick={() => {
-                clear();
+  //       <div
+  //         // Wrapper div for Clear and Random buttons
+  //         style={{
+  //           marginLeft: "13rem"
+  //         }}
+  //       >
+  //         <span
+  //           // Wrapper for the Clear button to highlight during the appropriate tour step
+  //           style={{
+  //             animation: tour.clear ? "fadeInAndOut 4s linear" : "",
+  //             animationIterationCount: tour.clear ? "infinite" : ""
+  //           }}
+  //         >
+  //           <Button
+  //             // Clear button
+  //             onClick={() => {
+  //               clear();
 
-                // If the tour is on the Clear step, push the tour forward one step
-                if (tour.clear) setTourStep((tourStep) => tourStep + 1);
-              }}
-              color="primary"
-            >
-              <CloseRoundedIcon />
-              Clear
-            </Button>
-          </span>
-          <Button
-            // Random button
-            onClick={() => {
-              const newGrid = generateGrid();
-              setGrid(seeds.random(newGrid));
-            }}
-            color="primary"
-          >
-            <CasinoRoundedIcon />
-            Random
-          </Button>
-        </div>
-      </div>
+  //               // If the tour is on the Clear step, push the tour forward one step
+  //               if (tour.clear) setTourStep((tourStep) => tourStep + 1);
+  //             }}
+  //             color="primary"
+  //           >
+  //             <CloseRoundedIcon />
+  //             Clear
+  //           </Button>
+  //         </span>
+  //         <Button
+  //           // Random button
+  //           onClick={() => {
+  //             const newGrid = generateGrid();
+  //             setGrid(seeds.random(newGrid));
+  //           }}
+  //           color="primary"
+  //         >
+  //           <CasinoRoundedIcon />
+  //           Random
+  //         </Button>
+  //       </div>
+  //     </div>
 
-      <div
-        // Wrapper div for the speed slider
-        style={{
-          position: "absolute",
-          bottom: "5vh",
-          right: "14vh",
-          width: "15%"
-        }}
-      >
-        <Typography style={{ display: "inline" }}>Speed: </Typography>
-        <Typography
-          style={{
-            display: "inline"
-          }}
-        >
-          <strong>{renderSpeed(sliderValue)}</strong>
-        </Typography>
-        <Slider
-          // Speed control slider
-          color="primary"
-          value={sliderValue}
-          onChange={sliderChange}
-          onMouseDown={() => pause()}
-          onMouseUp={updateTimeStep}
-          onMouseLeave={updateTimeStep}
-          aria-labelledby="continuous-slider"
-        />
-      </div>
-    </div>
-  );
+  //     <div
+  //       // Wrapper div for the speed slider
+  //       style={{
+  //         position: "absolute",
+  //         bottom: "5vh",
+  //         right: "14vh",
+  //         width: "15%"
+  //       }}
+  //     >
+  //       <Typography style={{ display: "inline" }}>Speed: </Typography>
+  //       <Typography
+  //         style={{
+  //           display: "inline"
+  //         }}
+  //       >
+  //         <strong>{renderSpeed(sliderValue)}</strong>
+  //       </Typography>
+  //       <Slider
+  //         // Speed control slider
+  //         color="primary"
+  //         value={sliderValue}
+  //         onChange={sliderChange}
+  //         onMouseDown={() => pause()}
+  //         onMouseUp={updateTimeStep}
+  //         onMouseLeave={updateTimeStep}
+  //         aria-labelledby="continuous-slider"
+  //       />
+  //     </div>
+  //   </div>
+  // );
 }

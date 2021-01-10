@@ -8,7 +8,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "./components/Grid";
 import Controls from "./components/Controls";
 import ShapesDrawer from "./components/ShapesDrawer";
-import ShapesAccordion from "./components/ShapesAccordion";
+// import ShapesAccordion from "./components/ShapesAccordion";
 import ShapesAccordionShape from "./components/ShapesAccordionShape";
 import WelcomeDialog from "./components/WelcomeDialog";
 import AppSnackbar from "./components/AppSnackbar";
