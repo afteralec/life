@@ -26,7 +26,7 @@ import renderSpeed from "../helpers/renderSpeed";
 // App script imports
 import generateGrid from "../scripts/generateGrid";
 
-const useStyles = makeStyles((_theme) => ({
+const useStyles = makeStyles(() => ({
   appBar: {
     top: "auto",
     bottom: 0
